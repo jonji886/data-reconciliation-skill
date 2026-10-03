@@ -14,12 +14,30 @@ def test_missing_duplicate_and_mismatch_summary():
         target_key="order_no",
         rules=[CompareRule(source_column="amount", target_column="total_amount", rule_type="numeric", tolerance=0.01, normalizers=["numeric_parse"])],
     )
-    assert result.summary.matched_rows == 2
+    assert result.summary.matched_rows == 1
     assert result.summary.missing_in_target == 1
     assert result.summary.missing_in_source == 1
     assert result.summary.duplicate_source_keys == 1
     assert result.summary.value_mismatches == 1
     assert result.value_mismatch[0]["reconciliation_key"] == "a002"
+    assert len(result.duplicate_source) == 2
+    assert all(row["reconciliation_key"] == "a001" for row in result.duplicate_source)
+    assert "excluded from normal record-level comparison" in result.warnings[0]
+
+
+def test_duplicate_keys_are_not_compared_even_when_values_differ():
+    source = pd.DataFrame({"id": ["A001", "A001"], "amount": [100, 999]})
+    target = pd.DataFrame({"id": ["A001"], "amount": [100]})
+    result = reconcile(
+        source,
+        target,
+        source_key="id",
+        target_key="id",
+        rules=[CompareRule(source_column="amount", target_column="amount", rule_type="numeric")],
+    )
+    assert result.summary.matched_rows == 0
+    assert result.summary.value_mismatches == 0
+    assert result.duplicate_source[0]["duplicate_count"] == 2
 
 
 def test_format_and_date_differences_are_not_false_mismatches():
