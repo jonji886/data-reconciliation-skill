@@ -1,0 +1,5 @@
+order_id,region,status
+A001,East,paid
+A002,West,paid
+A003,East,cancelled
+A004,East,cancelled
