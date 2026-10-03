@@ -346,7 +346,52 @@ MVP 技术完成 ≠ 产品验证成功。
 
 ---
 
-## 13. Quick Start
+## 13. Architecture
+
+```text
+Host Agent / LLM
+        │
+        ├── Intent
+        ├── Semantic Mapping
+        ├── Clarification
+        └── Explanation
+        │
+        ▼
+Deterministic Engine
+        │
+        ├── Profile
+        ├── Key Detection
+        ├── Join
+        ├── Diff
+        ├── Tolerance
+        ├── Evidence
+        └── Excel Report
+```
+
+> LLM handles ambiguity. Code handles truth.
+
+重复键会单独进入 Duplicate sheet，并排除在普通 record-level value comparison 之外；确认后的 Mapping 可通过 YAML 重复运行。
+
+## 14. Security
+
+- Local-first：文件默认只在本地读取和处理，当前默认 matcher 不需要 LLM Key。
+- Minimal LLM data exposure：日志仅记录文件名、SHA-256、规则元数据和摘要，不记录完整数据行。
+- Excel report 对用户来源的 `=`, `+`, `-`（非纯数值）和 `@` 前缀做文本转义，防止 Formula Injection。
+- 不静默推断业务枚举、金额单位、时区、一对多关系或冲突 Mapping。
+
+## 15. Benchmark
+
+Benchmark 包含 25 个端到端 case，覆盖中英文 Mapping、错误主键陷阱、缺失/重复/null、数值容差、日期、大小写、枚举、SKU、客户、库存、支付、订单和迁移场景。
+
+运行：
+
+```bash
+uv run python benchmark/run_benchmark.py
+```
+
+当前结果由 [`benchmark/results.json`](benchmark/results.json) 真实生成；该文件是指标唯一事实来源，包含 Key Detection Accuracy、Mapping Precision/Recall、Missing Record Recall、Mismatch Precision、False Positive、Confirmation Safety、Runtime、LLM Calls 及两个 baseline。详细设计和局限见 [`benchmark/README.md`](benchmark/README.md)。
+
+## 16. Quick Start
 
 需要 Python 3.11+。项目默认本地运行，不需要 LLM Key：
 
@@ -375,7 +420,7 @@ OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 uv run pytest -q
 OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 uv run python benchmark/run_benchmark.py
 ```
 
-## 14. 下一阶段可能扩展
+## 17. 下一阶段可能扩展
 
 只有 MVP 得到真实使用验证后，再考虑：
 
