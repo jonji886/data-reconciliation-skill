@@ -25,14 +25,14 @@ def _detect_delimiter(path: Path, encoding: str) -> str:
             sample = handle.read(8192)
         if not sample.strip():
             return ","
-        return csv.Sniffer().sniff(sample, delimiters=",;\\t|").delimiter
+        return csv.Sniffer().sniff(sample, delimiters=",;\t|").delimiter
     except (OSError, UnicodeError, csv.Error):
         return ","
 
 
 def _load_csv(path: Path) -> pd.DataFrame:
     errors: list[str] = []
-    for encoding in ("utf-8-sig", "utf-8"):
+    for encoding in ("utf-8-sig", "utf-8", "gb18030"):
         try:
             delimiter = _detect_delimiter(path, encoding)
             return pd.read_csv(path, encoding=encoding, sep=delimiter, dtype=object)
@@ -40,7 +40,7 @@ def _load_csv(path: Path) -> pd.DataFrame:
             errors.append(f"{encoding}: {exc}")
     raise ReconciliationError(
         "FILE_ERROR",
-        f"无法解析 CSV 文件 {path.name}。请确认文件编码为 UTF-8 且格式完整。",
+        f"无法解析 CSV 文件 {path.name}。已尝试 UTF-8-SIG、UTF-8、GB18030；请确认编码或文件格式完整。",
         details={"errors": errors},
     )
 

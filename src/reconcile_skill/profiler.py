@@ -3,17 +3,17 @@
 from __future__ import annotations
 
 import math
-import re
 from typing import Any
 
 import pandas as pd
 
 from .loaders import LoadedTable
 from .models import ColumnProfile, TableProfile
+from .semantic_matcher import semantic_tokens
 
 _ID_WORDS = {"id", "code", "no", "number", "编号", "编码", "订单号", "客户号", "用户号"}
 _STATUS_WORDS = {"status", "state", "type", "category", "状态", "类型", "分类"}
-_DATE_WORDS = {"date", "time", "at", "日期", "时间", "创建", "更新"}
+_DATE_WORDS = {"date", "time", "at", "日期", "时间", "创建", "更新", "created", "updated"}
 _AMOUNT_WORDS = {"amount", "price", "total", "fee", "cost", "金额", "价格", "费用", "总额"}
 _NAME_WORDS = {"name", "姓名", "名称", "客户名", "用户名"}
 
@@ -42,7 +42,7 @@ def _json_value(value: Any) -> Any:
 
 
 def _tokens(name: str) -> set[str]:
-    return {token.lower() for token in re.findall(r"[A-Za-z0-9]+|[^A-Za-z0-9\\s]", name) if token.strip()}
+    return semantic_tokens(name)
 
 
 def infer_semantic_type(name: str, series: pd.Series) -> str:
@@ -80,9 +80,9 @@ def profile_dataframe(table: LoadedTable) -> TableProfile:
         series = df[name]
         null_mask = series.map(_is_null)
         non_null = series[~null_mask]
-        unique_values = {_json_value(value) for value in non_null}
-        values = [_json_value(value) for value in non_null]
-        top = series[~null_mask].map(_json_value).value_counts(dropna=False).head(5)
+        unique_count = int(non_null.nunique(dropna=True))
+        sample_values = [_json_value(value) for value in non_null.head(10)]
+        top = non_null.map(_json_value).value_counts(dropna=False).head(5)
         top_values = [{"value": _json_value(index), "count": int(count)} for index, count in top.items()]
         minimum = maximum = None
         if len(non_null):
@@ -94,20 +94,20 @@ def profile_dataframe(table: LoadedTable) -> TableProfile:
                 parsed = pd.to_datetime(non_null, errors="coerce", format="mixed")
                 if len(parsed) and parsed.notna().mean() >= 0.8:
                     minimum, maximum = _json_value(parsed.min()), _json_value(parsed.max())
-        lengths = [len(str(value)) for value in values if value is not None]
+        lengths = non_null.astype("string").str.len()
         columns.append(
             ColumnProfile(
                 name=str(name),
                 dtype=str(series.dtype),
                 null_count=int(null_mask.sum()),
                 null_ratio=float(null_mask.mean()) if row_count else 0.0,
-                unique_count=len(unique_values),
-                unique_ratio=(len(unique_values) / len(non_null)) if len(non_null) else 0.0,
+                unique_count=unique_count,
+                unique_ratio=(unique_count / len(non_null)) if len(non_null) else 0.0,
                 top_values=top_values,
-                sample_values=values[:10],
+                sample_values=sample_values,
                 min=minimum,
                 max=maximum,
-                max_length=max(lengths) if lengths else None,
+                max_length=int(lengths.max()) if not lengths.empty else None,
                 inferred_semantic_type=infer_semantic_type(str(name), series),
             )
         )

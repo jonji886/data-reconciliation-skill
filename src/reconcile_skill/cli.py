@@ -22,10 +22,97 @@ from .semantic_matcher import suggest_column_mappings
 app = typer.Typer(add_completion=False, no_args_is_help=True, help="Excel / CSV 智能对账与差异定位")
 
 
-def _ask(prompt: str, *, default: bool = False) -> bool:
-    suffix = " [Y/n] " if default else " [y/N] "
-    answer = typer.prompt(prompt + suffix, default="Y" if default else "N", show_default=False)
-    return answer.strip().lower() in {"y", "yes", "是"}
+def _choose_key(
+    candidates: list[KeyCandidate],
+    *,
+    source_columns: list[str],
+    target_columns: list[str],
+    non_interactive: bool,
+) -> KeyCandidate:
+    typer.echo("候选主键:")
+    for index, candidate in enumerate(candidates[:3], 1):
+        typer.echo(f"  {index}. {candidate.source_column} ↔ {candidate.target_column} confidence={candidate.score:.2f}")
+    typer.echo("选择: [1-3] 候选  [M] 手动指定  [A] 退出")
+    if non_interactive:
+        selected = candidates[0]
+        if selected.requires_confirmation:
+            raise ReconciliationError("AMBIGUOUS_MAPPING", "最高分主键置信度不足，非交互模式不会静默选择。")
+        return selected
+    while True:
+        answer = typer.prompt("请选择主键").strip()
+        if answer.upper() == "A":
+            raise ReconciliationError("ABORTED", "用户取消了对账。")
+        if answer.upper() == "M":
+            source_key = typer.prompt("Source key").strip()
+            target_key = typer.prompt("Target key").strip()
+            if source_key not in source_columns or target_key not in target_columns:
+                typer.echo("字段不存在，请重新输入。")
+                continue
+            return KeyCandidate(
+                columns=[source_key, target_key],
+                source_column=source_key,
+                target_column=target_key,
+                score=1.0,
+                reasons=["用户手动指定并确认"],
+            )
+        if answer.isdigit() and 1 <= int(answer) <= min(3, len(candidates)):
+            return candidates[int(answer) - 1]
+        typer.echo("请输入 1-3、M 或 A。")
+
+
+def _choose_mapping(suggestion, *, target_columns: list[str], non_interactive: bool):
+    if suggestion.target_column is None:
+        typer.echo(f"没有达到自动映射阈值: {suggestion.source_column}")
+        if non_interactive:
+            return None
+        typer.echo("选择: [S] 跳过  [M] 手动指定 Target")
+        while True:
+            answer = typer.prompt("请选择 Mapping").strip().upper()
+            if answer == "S":
+                return None
+            if answer == "M":
+                target = typer.prompt("Manual target").strip()
+                if target not in target_columns:
+                    typer.echo("Target 字段不存在，请重新输入。")
+                    continue
+                return suggestion.model_copy(
+                    update={"target_column": target, "mapping_type": "string", "requires_confirmation": False}
+                )
+            typer.echo("请输入 S 或 M。")
+    if not suggestion.requires_confirmation:
+        return suggestion
+    typer.echo(f"Source column: {suggestion.source_column}")
+    typer.echo("Candidate mappings:")
+    candidates = suggestion.candidates or [{"target_column": suggestion.target_column, "confidence": suggestion.confidence}]
+    for index, candidate in enumerate(candidates, 1):
+        typer.echo(f"  {index}. {candidate['target_column']} {candidate.get('confidence', 0):.2f}")
+    typer.echo("选择: [1-n] 选择候选  [S] 跳过  [M] 手动指定 Target")
+    if non_interactive:
+        raise ReconciliationError(
+            "AMBIGUOUS_MAPPING",
+            f"Mapping 未确认，非交互模式不会静默执行: {suggestion.source_column} -> {suggestion.target_column}",
+        )
+    while True:
+        answer = typer.prompt("请选择 Mapping").strip()
+        if answer.upper() == "S":
+            return None
+        if answer.upper() == "M":
+            target = typer.prompt("Manual target").strip()
+            if target not in target_columns:
+                typer.echo("Target 字段不存在，请重新输入。")
+                continue
+            return suggestion.model_copy(update={"target_column": target, "requires_confirmation": False})
+        if answer.isdigit() and 1 <= int(answer) <= len(candidates):
+            candidate = candidates[int(answer) - 1]
+            target = candidate["target_column"]
+            return suggestion.model_copy(
+                update={
+                    "target_column": target,
+                    "mapping_type": candidate.get("mapping_type", suggestion.mapping_type),
+                    "requires_confirmation": False,
+                }
+            )
+        typer.echo("请输入候选编号、S 或 M。")
 
 
 @app.command()
@@ -71,26 +158,28 @@ def reconcile_command(
             rules = saved_spec.fields
             typer.echo(f"使用已保存 Mapping: {source_key} ↔ {target_key}")
         else:
-            typer.echo("候选主键:")
-            for index, candidate in enumerate(candidates[:3], 1):
-                typer.echo(f"  {index}. {candidate.source_column} ↔ {candidate.target_column} confidence={candidate.score:.2f}")
-            selected = candidates[0]
-            if selected.requires_confirmation:
-                if non_interactive or not _ask(f"确认主键 {selected.source_column} ↔ {selected.target_column}?", default=False):
-                    raise ReconciliationError("AMBIGUOUS_MAPPING", "最高分主键置信度不足，未获得确认。")
+            selected = _choose_key(
+                candidates,
+                source_columns=list(source_table.dataframe.columns),
+                target_columns=list(target_table.dataframe.columns),
+                non_interactive=non_interactive,
+            )
             typer.echo(f"使用主键: {selected.source_column} ↔ {selected.target_column} (confidence={selected.score:.2f})")
 
             suggestions = suggest_column_mappings(source_profile, target_profile, source_table.dataframe, target_table.dataframe)
             confirmed: set[str] = set()
+            selected_suggestions = []
             for suggestion in suggestions:
-                if suggestion.target_column is None:
-                    typer.echo(f"跳过未映射字段: {suggestion.source_column}")
-                    continue
                 typer.echo(f"Mapping: {suggestion.source_column} -> {suggestion.target_column} confidence={suggestion.confidence:.2f} type={suggestion.mapping_type}")
-                if suggestion.requires_confirmation:
-                    if non_interactive or not _ask(f"确认该 Mapping？原因: {'; '.join(suggestion.reasons)}", default=False):
-                        raise ReconciliationError("AMBIGUOUS_MAPPING", f"Mapping 未确认: {suggestion.source_column} -> {suggestion.target_column}")
-                    confirmed.add(suggestion.source_column)
+                chosen = _choose_mapping(
+                    suggestion,
+                    target_columns=list(target_table.dataframe.columns),
+                    non_interactive=non_interactive,
+                )
+                if chosen is not None:
+                    selected_suggestions.append(chosen)
+                    confirmed.add(chosen.source_column)
+            suggestions = selected_suggestions
             rules = rules_from_suggestions(suggestions, confirmed_columns=confirmed, numeric_tolerance=tolerance)
         result = reconcile(
             source_table.dataframe,

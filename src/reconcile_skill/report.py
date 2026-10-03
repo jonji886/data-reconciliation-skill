@@ -11,11 +11,37 @@ import yaml
 from .models import MappingSpec, ReconciliationResult
 
 
+def sanitize_excel_cell(value: Any) -> Any:
+    """Escape formula-like user strings without converting ordinary numbers."""
+
+    if not isinstance(value, str):
+        return value
+    stripped = value.lstrip()
+    if not stripped or stripped[0] not in "=+-@":
+        return value
+    if stripped[0] in "+-":
+        try:
+            float(stripped.replace(",", ""))
+            return value
+        except ValueError:
+            pass
+    # Excel displays a leading apostrophe as an escape marker, not as part of
+    # the visible cell value, while openpyxl keeps the value as plain text.
+    return "'" + value
+
+
 def _frame(records: list[dict[str, Any]], columns: list[str] | None = None) -> pd.DataFrame:
     frame = pd.DataFrame(records)
     if frame.empty and columns:
         return pd.DataFrame(columns=columns)
     return frame
+
+
+def _safe_frame(frame: pd.DataFrame) -> pd.DataFrame:
+    safe = frame.copy()
+    for column in safe.columns:
+        safe[column] = safe[column].map(sanitize_excel_cell)
+    return safe
 
 
 def write_mapping_yaml(result: ReconciliationResult, output_path: str | Path, *, source_key: str, target_key: str) -> Path:
@@ -68,13 +94,15 @@ def write_report(
     mapping_rows = mapping_suggestions or [rule.model_dump() for rule in result.mapping]
     report_path = output / "reconciliation_report.xlsx"
     with pd.ExcelWriter(report_path, engine="openpyxl") as writer:
-        pd.DataFrame([summary]).T.rename(columns={0: "value"}).to_excel(writer, sheet_name="Summary", header=True)
-        _frame(mapping_rows).to_excel(writer, sheet_name="Mapping", index=False)
-        _frame(result.missing_in_source).to_excel(writer, sheet_name="Missing_In_Source", index=False)
-        _frame(result.missing_in_target).to_excel(writer, sheet_name="Missing_In_Target", index=False)
-        _frame(result.duplicate_source).to_excel(writer, sheet_name="Duplicate_Source", index=False)
-        _frame(result.duplicate_target).to_excel(writer, sheet_name="Duplicate_Target", index=False)
-        _frame(result.value_mismatch).to_excel(writer, sheet_name="Value_Mismatch", index=False)
-        _frame(result.diagnostics).to_excel(writer, sheet_name="Diagnostics", index=False)
+        _safe_frame(pd.DataFrame([summary]).T.rename(columns={0: "value"})).to_excel(
+            writer, sheet_name="Summary", header=True
+        )
+        _safe_frame(_frame(mapping_rows)).to_excel(writer, sheet_name="Mapping", index=False)
+        _safe_frame(_frame(result.missing_in_source)).to_excel(writer, sheet_name="Missing_In_Source", index=False)
+        _safe_frame(_frame(result.missing_in_target)).to_excel(writer, sheet_name="Missing_In_Target", index=False)
+        _safe_frame(_frame(result.duplicate_source)).to_excel(writer, sheet_name="Duplicate_Source", index=False)
+        _safe_frame(_frame(result.duplicate_target)).to_excel(writer, sheet_name="Duplicate_Target", index=False)
+        _safe_frame(_frame(result.value_mismatch)).to_excel(writer, sheet_name="Value_Mismatch", index=False)
+        _safe_frame(_frame(result.diagnostics)).to_excel(writer, sheet_name="Diagnostics", index=False)
     mapping_path = write_mapping_yaml(result, output / "mapping.yaml", source_key=source_key, target_key=target_key)
     return report_path, mapping_path

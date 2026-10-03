@@ -2,42 +2,20 @@
 
 from __future__ import annotations
 
-import re
-
 import pandas as pd
 
 from .models import KeyCandidate, TableProfile
 from .normalizers import normalize_key
+from .semantic_matcher import semantic_tokens
 
 
 def _name_score(source: str, target: str) -> float:
-    aliases = {
-        "identifier": "id",
-        "number": "id",
-        "num": "id",
-        "no": "id",
-        "client": "customer",
-        "customer": "customer",
-        "member": "user",
-        "user": "user",
-        "编号": "id",
-        "编码": "code",
-        "订单号": "order_no",
-    }
-
-    def clean(value: str) -> str:
-        value = re.sub(r"[^a-z0-9\u4e00-\u9fff]", " ", value.lower())
-        tokens = re.findall(r"[a-z0-9]+|[\u4e00-\u9fff]+", value)
-        return " ".join(aliases.get(token, token) for token in tokens)
-
-    left, right = clean(source), clean(target)
+    left, right = semantic_tokens(source), semantic_tokens(target)
     if left == right:
         return 1.0
-    if left in right or right in left:
+    if left <= right or right <= left:
         return 0.82
-    left_tokens = set(left.split())
-    right_tokens = set(right.split())
-    return len(left_tokens & right_tokens) / max(len(left_tokens | right_tokens), 1)
+    return len(left & right) / max(len(left | right), 1)
 
 
 def _compatibility(source_dtype: str, target_dtype: str) -> float:
@@ -72,7 +50,17 @@ def detect_key_candidates(
             name = _name_score(source.name, target.name)
             dtype = _compatibility(source.dtype, target.dtype)
             non_null = (1 - source.null_ratio + 1 - target.null_ratio) / 2
-            score = 0.33 * min(source_unique, target_unique) + 0.20 * non_null + 0.22 * name + 0.20 * overlap + 0.05 * dtype
+            identifier_semantics = float(
+                source.inferred_semantic_type == "identifier" and target.inferred_semantic_type == "identifier"
+            )
+            score = (
+                0.28 * min(source_unique, target_unique)
+                + 0.15 * non_null
+                + 0.18 * name
+                + 0.18 * overlap
+                + 0.05 * dtype
+                + 0.16 * identifier_semantics
+            )
             score = round(min(max(score, 0.0), 1.0), 4)
             reasons = [
                 f"唯一率 source={source_unique:.1%}, target={target_unique:.1%}",
@@ -83,6 +71,8 @@ def detect_key_candidates(
                 reasons.append("字段名称具有 ID/code/no 等主键语义或高度相似")
             if min(source_unique, target_unique) < 0.95:
                 reasons.append("唯一率不足，不能直接视为安全主键")
+            if not identifier_semantics:
+                reasons.append("字段语义未同时识别为 identifier，需要谨慎确认")
             candidates.append(
                 KeyCandidate(
                     columns=[source.name, target.name],

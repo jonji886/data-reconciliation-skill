@@ -53,6 +53,7 @@ class MappingSuggestion(BaseModel):
     confidence: float
     mapping_type: str
     reasons: list[str] = Field(default_factory=list)
+    candidates: list[dict[str, Any]] = Field(default_factory=list)
     requires_confirmation: bool = False
 
 

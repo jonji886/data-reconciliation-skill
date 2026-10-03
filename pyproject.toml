@@ -7,6 +7,7 @@ name = "excel-csv-reconciliation-skill"
 version = "0.1.0"
 description = "Deterministic Excel/CSV reconciliation with explainable mapping suggestions."
 readme = "README.md"
+license = {file = "LICENSE"}
 requires-python = ">=3.11"
 dependencies = [
   "openpyxl>=3.1",
