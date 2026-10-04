@@ -1,0 +1,3 @@
+sku,warehouse,available_qty,blocked_qty
+ABC001,WH-A,10,1
+ABC002,WH-A,20,0

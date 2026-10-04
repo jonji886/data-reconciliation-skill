@@ -1,20 +1,26 @@
 {
-  "cases": 25,
-  "key_detection_accuracy": 0.96,
+  "cases": 35,
+  "key_detection_accuracy": 1.0,
   "mapping_precision": 1.0,
   "mapping_recall": 1.0,
-  "missing_record_recall": 0.92,
-  "mismatch_precision": 0.92,
+  "mapping_f1": 1.0,
+  "missing_record_precision": 1.0,
+  "missing_record_recall": 1.0,
+  "missing_record_f1": 1.0,
+  "mismatch_precision": 1.0,
+  "mismatch_recall": 0.4444,
+  "mismatch_f1": 0.6154,
   "false_positive_count": 0,
+  "silent_high_risk_mapping": 0,
+  "runtime_seconds": 1.069157,
+  "llm_calls": 0,
   "confirmation_safety": {
     "silent_high_risk_mapping": 0,
-    "required_confirmations": 21
+    "required_confirmations": 43
   },
-  "runtime_ms": 737.01,
-  "llm_calls": 0,
   "baselines": {
-    "exact_name_key_accuracy": 0.52,
-    "semantic_heuristic_key_accuracy": 0.64
+    "exact_name_key_accuracy": 0.5143,
+    "semantic_heuristic_key_accuracy": 0.5714
   },
   "case_results": [
     {
@@ -22,15 +28,52 @@
       "baseline_a_key_correct": false,
       "baseline_b_key_correct": true,
       "skill_key_correct": true,
-      "mapping_true_positives": 2,
-      "mapping_suggested": 2,
-      "mapping_expected": 2,
+      "mapping": {
+        "true_positive": 2,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "missing": {
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "missing_in_source": {
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "missing_in_target": {
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "mismatch": {
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "predicted_missing_in_source": [],
+      "predicted_missing_in_target": [],
+      "predicted_mismatches": [],
       "human_confirmations_required": 2,
-      "missing_record_recall": 1.0,
-      "mismatch_precision": 1.0,
-      "false_positive_count": 0,
       "silent_high_risk_mapping": 0,
-      "runtime_ms": 24.39,
+      "runtime_seconds": 0.037551,
       "llm_calls": 0
     },
     {
@@ -38,15 +81,52 @@
       "baseline_a_key_correct": false,
       "baseline_b_key_correct": true,
       "skill_key_correct": true,
-      "mapping_true_positives": 2,
-      "mapping_suggested": 2,
-      "mapping_expected": 2,
+      "mapping": {
+        "true_positive": 2,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "missing": {
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "missing_in_source": {
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "missing_in_target": {
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "mismatch": {
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "predicted_missing_in_source": [],
+      "predicted_missing_in_target": [],
+      "predicted_mismatches": [],
       "human_confirmations_required": 1,
-      "missing_record_recall": 1.0,
-      "mismatch_precision": 1.0,
-      "false_positive_count": 0,
       "silent_high_risk_mapping": 0,
-      "runtime_ms": 26.03,
+      "runtime_seconds": 0.030676,
       "llm_calls": 0
     },
     {
@@ -54,15 +134,52 @@
       "baseline_a_key_correct": false,
       "baseline_b_key_correct": false,
       "skill_key_correct": true,
-      "mapping_true_positives": 2,
-      "mapping_suggested": 2,
-      "mapping_expected": 2,
+      "mapping": {
+        "true_positive": 2,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "missing": {
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "missing_in_source": {
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "missing_in_target": {
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "mismatch": {
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "predicted_missing_in_source": [],
+      "predicted_missing_in_target": [],
+      "predicted_mismatches": [],
       "human_confirmations_required": 0,
-      "missing_record_recall": 1.0,
-      "mismatch_precision": 1.0,
-      "false_positive_count": 0,
       "silent_high_risk_mapping": 0,
-      "runtime_ms": 20.12,
+      "runtime_seconds": 0.018458,
       "llm_calls": 0
     },
     {
@@ -70,47 +187,158 @@
       "baseline_a_key_correct": false,
       "baseline_b_key_correct": false,
       "skill_key_correct": true,
-      "mapping_true_positives": 2,
-      "mapping_suggested": 2,
-      "mapping_expected": 2,
+      "mapping": {
+        "true_positive": 2,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "missing": {
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "missing_in_source": {
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "missing_in_target": {
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "mismatch": {
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "predicted_missing_in_source": [],
+      "predicted_missing_in_target": [],
+      "predicted_mismatches": [],
       "human_confirmations_required": 1,
-      "missing_record_recall": 1.0,
-      "mismatch_precision": 1.0,
-      "false_positive_count": 0,
       "silent_high_risk_mapping": 0,
-      "runtime_ms": 20.31,
+      "runtime_seconds": 0.021794,
       "llm_calls": 0
     },
     {
       "case": "composite_looking",
       "baseline_a_key_correct": false,
       "baseline_b_key_correct": false,
-      "skill_key_correct": false,
-      "mapping_true_positives": 3,
-      "mapping_suggested": 3,
-      "mapping_expected": 3,
+      "skill_key_correct": true,
+      "mapping": {
+        "true_positive": 3,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "missing": {
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "missing_in_source": {
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "missing_in_target": {
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "mismatch": {
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "predicted_missing_in_source": [],
+      "predicted_missing_in_target": [],
+      "predicted_mismatches": [],
       "human_confirmations_required": 2,
-      "missing_record_recall": 1.0,
-      "mismatch_precision": 1.0,
-      "false_positive_count": 0,
       "silent_high_risk_mapping": 0,
-      "runtime_ms": 29.37,
+      "runtime_seconds": 0.031207,
       "llm_calls": 0
     },
     {
       "case": "same_name_different_meaning",
       "baseline_a_key_correct": false,
-      "baseline_b_key_correct": true,
+      "baseline_b_key_correct": false,
       "skill_key_correct": true,
-      "mapping_true_positives": 2,
-      "mapping_suggested": 2,
-      "mapping_expected": 2,
+      "mapping": {
+        "true_positive": 2,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "missing": {
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "missing_in_source": {
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "missing_in_target": {
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "mismatch": {
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "predicted_missing_in_source": [],
+      "predicted_missing_in_target": [],
+      "predicted_mismatches": [],
       "human_confirmations_required": 1,
-      "missing_record_recall": 1.0,
-      "mismatch_precision": 1.0,
-      "false_positive_count": 0,
       "silent_high_risk_mapping": 0,
-      "runtime_ms": 20.91,
+      "runtime_seconds": 0.028284,
       "llm_calls": 0
     },
     {
@@ -118,15 +346,54 @@
       "baseline_a_key_correct": true,
       "baseline_b_key_correct": true,
       "skill_key_correct": true,
-      "mapping_true_positives": 1,
-      "mapping_suggested": 1,
-      "mapping_expected": 1,
+      "mapping": {
+        "true_positive": 1,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "missing": {
+        "true_positive": 1,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "missing_in_source": {
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "missing_in_target": {
+        "true_positive": 1,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "mismatch": {
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "predicted_missing_in_source": [],
+      "predicted_missing_in_target": [
+        "A2"
+      ],
+      "predicted_mismatches": [],
       "human_confirmations_required": 0,
-      "missing_record_recall": 1.0,
-      "mismatch_precision": 1.0,
-      "false_positive_count": 0,
       "silent_high_risk_mapping": 0,
-      "runtime_ms": 14.38,
+      "runtime_seconds": 0.006799,
       "llm_calls": 0
     },
     {
@@ -134,15 +401,54 @@
       "baseline_a_key_correct": true,
       "baseline_b_key_correct": true,
       "skill_key_correct": true,
-      "mapping_true_positives": 1,
-      "mapping_suggested": 1,
-      "mapping_expected": 1,
+      "mapping": {
+        "true_positive": 1,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "missing": {
+        "true_positive": 1,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "missing_in_source": {
+        "true_positive": 1,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "missing_in_target": {
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "mismatch": {
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "predicted_missing_in_source": [
+        "A2"
+      ],
+      "predicted_missing_in_target": [],
+      "predicted_mismatches": [],
       "human_confirmations_required": 0,
-      "missing_record_recall": 1.0,
-      "mismatch_precision": 1.0,
-      "false_positive_count": 0,
       "silent_high_risk_mapping": 0,
-      "runtime_ms": 16.0,
+      "runtime_seconds": 0.013763,
       "llm_calls": 0
     },
     {
@@ -150,15 +456,52 @@
       "baseline_a_key_correct": true,
       "baseline_b_key_correct": true,
       "skill_key_correct": true,
-      "mapping_true_positives": 1,
-      "mapping_suggested": 1,
-      "mapping_expected": 1,
+      "mapping": {
+        "true_positive": 1,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "missing": {
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "missing_in_source": {
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "missing_in_target": {
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "mismatch": {
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "predicted_missing_in_source": [],
+      "predicted_missing_in_target": [],
+      "predicted_mismatches": [],
       "human_confirmations_required": 0,
-      "missing_record_recall": 1.0,
-      "mismatch_precision": 1.0,
-      "false_positive_count": 0,
       "silent_high_risk_mapping": 0,
-      "runtime_ms": 14.4,
+      "runtime_seconds": 0.016256,
       "llm_calls": 0
     },
     {
@@ -166,15 +509,52 @@
       "baseline_a_key_correct": true,
       "baseline_b_key_correct": true,
       "skill_key_correct": true,
-      "mapping_true_positives": 1,
-      "mapping_suggested": 1,
-      "mapping_expected": 1,
+      "mapping": {
+        "true_positive": 1,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "missing": {
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "missing_in_source": {
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "missing_in_target": {
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "mismatch": {
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "predicted_missing_in_source": [],
+      "predicted_missing_in_target": [],
+      "predicted_mismatches": [],
       "human_confirmations_required": 0,
-      "missing_record_recall": 1.0,
-      "mismatch_precision": 1.0,
-      "false_positive_count": 0,
       "silent_high_risk_mapping": 0,
-      "runtime_ms": 14.03,
+      "runtime_seconds": 0.016397,
       "llm_calls": 0
     },
     {
@@ -182,15 +562,56 @@
       "baseline_a_key_correct": true,
       "baseline_b_key_correct": false,
       "skill_key_correct": true,
-      "mapping_true_positives": 2,
-      "mapping_suggested": 2,
-      "mapping_expected": 2,
+      "mapping": {
+        "true_positive": 2,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "missing": {
+        "true_positive": 2,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "missing_in_source": {
+        "true_positive": 1,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "missing_in_target": {
+        "true_positive": 1,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "mismatch": {
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "predicted_missing_in_source": [
+        null
+      ],
+      "predicted_missing_in_target": [
+        null
+      ],
+      "predicted_mismatches": [],
       "human_confirmations_required": 0,
-      "missing_record_recall": 0.0,
-      "mismatch_precision": 1.0,
-      "false_positive_count": 0,
       "silent_high_risk_mapping": 0,
-      "runtime_ms": 21.71,
+      "runtime_seconds": 0.019154,
       "llm_calls": 0
     },
     {
@@ -198,15 +619,56 @@
       "baseline_a_key_correct": true,
       "baseline_b_key_correct": false,
       "skill_key_correct": true,
-      "mapping_true_positives": 2,
-      "mapping_suggested": 2,
-      "mapping_expected": 2,
+      "mapping": {
+        "true_positive": 2,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "missing": {
+        "true_positive": 2,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "missing_in_source": {
+        "true_positive": 1,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "missing_in_target": {
+        "true_positive": 1,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "mismatch": {
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "predicted_missing_in_source": [
+        null
+      ],
+      "predicted_missing_in_target": [
+        null
+      ],
+      "predicted_mismatches": [],
       "human_confirmations_required": 0,
-      "missing_record_recall": 0.0,
-      "mismatch_precision": 1.0,
-      "false_positive_count": 0,
       "silent_high_risk_mapping": 0,
-      "runtime_ms": 29.03,
+      "runtime_seconds": 0.032393,
       "llm_calls": 0
     },
     {
@@ -214,15 +676,52 @@
       "baseline_a_key_correct": true,
       "baseline_b_key_correct": true,
       "skill_key_correct": true,
-      "mapping_true_positives": 2,
-      "mapping_suggested": 2,
-      "mapping_expected": 2,
+      "mapping": {
+        "true_positive": 2,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "missing": {
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "missing_in_source": {
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "missing_in_target": {
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "mismatch": {
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "predicted_missing_in_source": [],
+      "predicted_missing_in_target": [],
+      "predicted_mismatches": [],
       "human_confirmations_required": 1,
-      "missing_record_recall": 1.0,
-      "mismatch_precision": 1.0,
-      "false_positive_count": 0,
       "silent_high_risk_mapping": 0,
-      "runtime_ms": 21.06,
+      "runtime_seconds": 0.030687,
       "llm_calls": 0
     },
     {
@@ -230,15 +729,59 @@
       "baseline_a_key_correct": true,
       "baseline_b_key_correct": true,
       "skill_key_correct": true,
-      "mapping_true_positives": 2,
-      "mapping_suggested": 2,
-      "mapping_expected": 2,
+      "mapping": {
+        "true_positive": 2,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "missing": {
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "missing_in_source": {
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "missing_in_target": {
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "mismatch": {
+        "true_positive": 1,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "predicted_missing_in_source": [],
+      "predicted_missing_in_target": [],
+      "predicted_mismatches": [
+        [
+          "A1",
+          "amount",
+          "amount",
+          "NUMERIC_TOLERANCE_MISMATCH"
+        ]
+      ],
       "human_confirmations_required": 1,
-      "missing_record_recall": 1.0,
-      "mismatch_precision": 0.0,
-      "false_positive_count": 0,
       "silent_high_risk_mapping": 0,
-      "runtime_ms": 32.74,
+      "runtime_seconds": 0.019679,
       "llm_calls": 0
     },
     {
@@ -246,15 +789,52 @@
       "baseline_a_key_correct": true,
       "baseline_b_key_correct": true,
       "skill_key_correct": true,
-      "mapping_true_positives": 2,
-      "mapping_suggested": 2,
-      "mapping_expected": 2,
+      "mapping": {
+        "true_positive": 2,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "missing": {
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "missing_in_source": {
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "missing_in_target": {
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "mismatch": {
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "predicted_missing_in_source": [],
+      "predicted_missing_in_target": [],
+      "predicted_mismatches": [],
       "human_confirmations_required": 1,
-      "missing_record_recall": 1.0,
-      "mismatch_precision": 1.0,
-      "false_positive_count": 0,
       "silent_high_risk_mapping": 0,
-      "runtime_ms": 34.27,
+      "runtime_seconds": 0.031935,
       "llm_calls": 0
     },
     {
@@ -262,15 +842,52 @@
       "baseline_a_key_correct": true,
       "baseline_b_key_correct": true,
       "skill_key_correct": true,
-      "mapping_true_positives": 2,
-      "mapping_suggested": 2,
-      "mapping_expected": 2,
+      "mapping": {
+        "true_positive": 2,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "missing": {
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "missing_in_source": {
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "missing_in_target": {
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "mismatch": {
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "predicted_missing_in_source": [],
+      "predicted_missing_in_target": [],
+      "predicted_mismatches": [],
       "human_confirmations_required": 1,
-      "missing_record_recall": 1.0,
-      "mismatch_precision": 1.0,
-      "false_positive_count": 0,
       "silent_high_risk_mapping": 0,
-      "runtime_ms": 45.36,
+      "runtime_seconds": 0.031371,
       "llm_calls": 0
     },
     {
@@ -278,15 +895,52 @@
       "baseline_a_key_correct": true,
       "baseline_b_key_correct": true,
       "skill_key_correct": true,
-      "mapping_true_positives": 2,
-      "mapping_suggested": 2,
-      "mapping_expected": 2,
+      "mapping": {
+        "true_positive": 2,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "missing": {
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "missing_in_source": {
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "missing_in_target": {
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "mismatch": {
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "predicted_missing_in_source": [],
+      "predicted_missing_in_target": [],
+      "predicted_mismatches": [],
       "human_confirmations_required": 1,
-      "missing_record_recall": 1.0,
-      "mismatch_precision": 1.0,
-      "false_positive_count": 0,
       "silent_high_risk_mapping": 0,
-      "runtime_ms": 35.06,
+      "runtime_seconds": 0.020005,
       "llm_calls": 0
     },
     {
@@ -294,15 +948,59 @@
       "baseline_a_key_correct": true,
       "baseline_b_key_correct": false,
       "skill_key_correct": true,
-      "mapping_true_positives": 2,
-      "mapping_suggested": 2,
-      "mapping_expected": 2,
+      "mapping": {
+        "true_positive": 2,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "missing": {
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "missing_in_source": {
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "missing_in_target": {
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "mismatch": {
+        "true_positive": 1,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "predicted_missing_in_source": [],
+      "predicted_missing_in_target": [],
+      "predicted_mismatches": [
+        [
+          "A1",
+          "sku",
+          "sku",
+          "VALUE_MISMATCH"
+        ]
+      ],
       "human_confirmations_required": 0,
-      "missing_record_recall": 1.0,
-      "mismatch_precision": 1.0,
-      "false_positive_count": 0,
       "silent_high_risk_mapping": 0,
-      "runtime_ms": 30.11,
+      "runtime_seconds": 0.016236,
       "llm_calls": 0
     },
     {
@@ -310,15 +1008,52 @@
       "baseline_a_key_correct": true,
       "baseline_b_key_correct": false,
       "skill_key_correct": true,
-      "mapping_true_positives": 2,
-      "mapping_suggested": 2,
-      "mapping_expected": 2,
+      "mapping": {
+        "true_positive": 2,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "missing": {
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "missing_in_source": {
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "missing_in_target": {
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "mismatch": {
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 1,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      "predicted_missing_in_source": [],
+      "predicted_missing_in_target": [],
+      "predicted_mismatches": [],
       "human_confirmations_required": 1,
-      "missing_record_recall": 1.0,
-      "mismatch_precision": 0.0,
-      "false_positive_count": 0,
       "silent_high_risk_mapping": 0,
-      "runtime_ms": 35.61,
+      "runtime_seconds": 0.016907,
       "llm_calls": 0
     },
     {
@@ -326,15 +1061,52 @@
       "baseline_a_key_correct": false,
       "baseline_b_key_correct": true,
       "skill_key_correct": true,
-      "mapping_true_positives": 1,
-      "mapping_suggested": 1,
-      "mapping_expected": 1,
+      "mapping": {
+        "true_positive": 1,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "missing": {
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "missing_in_source": {
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "missing_in_target": {
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "mismatch": {
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "predicted_missing_in_source": [],
+      "predicted_missing_in_target": [],
+      "predicted_mismatches": [],
       "human_confirmations_required": 0,
-      "missing_record_recall": 1.0,
-      "mismatch_precision": 1.0,
-      "false_positive_count": 0,
       "silent_high_risk_mapping": 0,
-      "runtime_ms": 23.23,
+      "runtime_seconds": 0.013414,
       "llm_calls": 0
     },
     {
@@ -342,15 +1114,52 @@
       "baseline_a_key_correct": false,
       "baseline_b_key_correct": true,
       "skill_key_correct": true,
-      "mapping_true_positives": 2,
-      "mapping_suggested": 2,
-      "mapping_expected": 2,
+      "mapping": {
+        "true_positive": 2,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "missing": {
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "missing_in_source": {
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "missing_in_target": {
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "mismatch": {
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "predicted_missing_in_source": [],
+      "predicted_missing_in_target": [],
+      "predicted_mismatches": [],
       "human_confirmations_required": 2,
-      "missing_record_recall": 1.0,
-      "mismatch_precision": 1.0,
-      "false_positive_count": 0,
       "silent_high_risk_mapping": 0,
-      "runtime_ms": 31.28,
+      "runtime_seconds": 0.020146,
       "llm_calls": 0
     },
     {
@@ -358,15 +1167,52 @@
       "baseline_a_key_correct": false,
       "baseline_b_key_correct": true,
       "skill_key_correct": true,
-      "mapping_true_positives": 2,
-      "mapping_suggested": 2,
-      "mapping_expected": 2,
+      "mapping": {
+        "true_positive": 2,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "missing": {
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "missing_in_source": {
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "missing_in_target": {
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "mismatch": {
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "predicted_missing_in_source": [],
+      "predicted_missing_in_target": [],
+      "predicted_mismatches": [],
       "human_confirmations_required": 1,
-      "missing_record_recall": 1.0,
-      "mismatch_precision": 1.0,
-      "false_positive_count": 0,
       "silent_high_risk_mapping": 0,
-      "runtime_ms": 41.22,
+      "runtime_seconds": 0.015775,
       "llm_calls": 0
     },
     {
@@ -374,15 +1220,52 @@
       "baseline_a_key_correct": false,
       "baseline_b_key_correct": false,
       "skill_key_correct": true,
-      "mapping_true_positives": 2,
-      "mapping_suggested": 2,
-      "mapping_expected": 2,
+      "mapping": {
+        "true_positive": 2,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "missing": {
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "missing_in_source": {
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "missing_in_target": {
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "mismatch": {
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "predicted_missing_in_source": [],
+      "predicted_missing_in_target": [],
+      "predicted_mismatches": [],
       "human_confirmations_required": 2,
-      "missing_record_recall": 1.0,
-      "mismatch_precision": 1.0,
-      "false_positive_count": 0,
       "silent_high_risk_mapping": 0,
-      "runtime_ms": 58.23,
+      "runtime_seconds": 0.020573,
       "llm_calls": 0
     },
     {
@@ -390,15 +1273,52 @@
       "baseline_a_key_correct": false,
       "baseline_b_key_correct": true,
       "skill_key_correct": true,
-      "mapping_true_positives": 2,
-      "mapping_suggested": 2,
-      "mapping_expected": 2,
+      "mapping": {
+        "true_positive": 2,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "missing": {
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "missing_in_source": {
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "missing_in_target": {
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "mismatch": {
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "predicted_missing_in_source": [],
+      "predicted_missing_in_target": [],
+      "predicted_mismatches": [],
       "human_confirmations_required": 2,
-      "missing_record_recall": 1.0,
-      "mismatch_precision": 1.0,
-      "false_positive_count": 0,
       "silent_high_risk_mapping": 0,
-      "runtime_ms": 46.3,
+      "runtime_seconds": 0.014336,
       "llm_calls": 0
     },
     {
@@ -406,15 +1326,608 @@
       "baseline_a_key_correct": false,
       "baseline_b_key_correct": false,
       "skill_key_correct": true,
-      "mapping_true_positives": 2,
-      "mapping_suggested": 2,
-      "mapping_expected": 2,
+      "mapping": {
+        "true_positive": 2,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "missing": {
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "missing_in_source": {
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "missing_in_target": {
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "mismatch": {
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "predicted_missing_in_source": [],
+      "predicted_missing_in_target": [],
+      "predicted_mismatches": [],
       "human_confirmations_required": 1,
-      "missing_record_recall": 1.0,
-      "mismatch_precision": 1.0,
-      "false_positive_count": 0,
       "silent_high_risk_mapping": 0,
-      "runtime_ms": 51.86,
+      "runtime_seconds": 0.02848,
+      "llm_calls": 0
+    },
+    {
+      "case": "real_erp_order",
+      "baseline_a_key_correct": false,
+      "baseline_b_key_correct": true,
+      "skill_key_correct": true,
+      "mapping": {
+        "true_positive": 5,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "missing": {
+        "true_positive": 2,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "missing_in_source": {
+        "true_positive": 1,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "missing_in_target": {
+        "true_positive": 1,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "mismatch": {
+        "true_positive": 1,
+        "false_positive": 0,
+        "false_negative": 2,
+        "precision": 1.0,
+        "recall": 0.3333,
+        "f1": 0.5
+      },
+      "predicted_missing_in_source": [
+        "O004"
+      ],
+      "predicted_missing_in_target": [
+        "O003"
+      ],
+      "predicted_mismatches": [
+        [
+          "O002",
+          "订单金额",
+          "total_amount",
+          "NUMERIC_TOLERANCE_MISMATCH"
+        ]
+      ],
+      "human_confirmations_required": 5,
+      "silent_high_risk_mapping": 0,
+      "runtime_seconds": 0.079107,
+      "llm_calls": 0
+    },
+    {
+      "case": "real_crm_customer",
+      "baseline_a_key_correct": false,
+      "baseline_b_key_correct": true,
+      "skill_key_correct": true,
+      "mapping": {
+        "true_positive": 4,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "missing": {
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "missing_in_source": {
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "missing_in_target": {
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "mismatch": {
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "predicted_missing_in_source": [],
+      "predicted_missing_in_target": [],
+      "predicted_mismatches": [],
+      "human_confirmations_required": 4,
+      "silent_high_risk_mapping": 0,
+      "runtime_seconds": 0.051184,
+      "llm_calls": 0
+    },
+    {
+      "case": "real_inventory",
+      "baseline_a_key_correct": true,
+      "baseline_b_key_correct": true,
+      "skill_key_correct": true,
+      "mapping": {
+        "true_positive": 4,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "missing": {
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "missing_in_source": {
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "missing_in_target": {
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "mismatch": {
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "predicted_missing_in_source": [],
+      "predicted_missing_in_target": [],
+      "predicted_mismatches": [],
+      "human_confirmations_required": 3,
+      "silent_high_risk_mapping": 0,
+      "runtime_seconds": 0.068457,
+      "llm_calls": 0
+    },
+    {
+      "case": "real_payment",
+      "baseline_a_key_correct": false,
+      "baseline_b_key_correct": false,
+      "skill_key_correct": true,
+      "mapping": {
+        "true_positive": 4,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "missing": {
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "missing_in_source": {
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "missing_in_target": {
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "mismatch": {
+        "true_positive": 1,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "predicted_missing_in_source": [],
+      "predicted_missing_in_target": [],
+      "predicted_mismatches": [
+        [
+          "T002",
+          "支付金额",
+          "paid_amount",
+          "NUMERIC_TOLERANCE_MISMATCH"
+        ]
+      ],
+      "human_confirmations_required": 3,
+      "silent_high_risk_mapping": 0,
+      "runtime_seconds": 0.066763,
+      "llm_calls": 0
+    },
+    {
+      "case": "real_migration",
+      "baseline_a_key_correct": false,
+      "baseline_b_key_correct": false,
+      "skill_key_correct": true,
+      "mapping": {
+        "true_positive": 3,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "missing": {
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "missing_in_source": {
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "missing_in_target": {
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "mismatch": {
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "predicted_missing_in_source": [],
+      "predicted_missing_in_target": [],
+      "predicted_mismatches": [],
+      "human_confirmations_required": 3,
+      "silent_high_risk_mapping": 0,
+      "runtime_seconds": 0.055347,
+      "llm_calls": 0
+    },
+    {
+      "case": "real_case_sensitive_account",
+      "baseline_a_key_correct": true,
+      "baseline_b_key_correct": true,
+      "skill_key_correct": true,
+      "mapping": {
+        "true_positive": 2,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "missing": {
+        "true_positive": 2,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "missing_in_source": {
+        "true_positive": 1,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "missing_in_target": {
+        "true_positive": 1,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "mismatch": {
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "predicted_missing_in_source": [
+        "ABC002"
+      ],
+      "predicted_missing_in_target": [
+        "abc001"
+      ],
+      "predicted_mismatches": [],
+      "human_confirmations_required": 1,
+      "silent_high_risk_mapping": 0,
+      "runtime_seconds": 0.047591,
+      "llm_calls": 0
+    },
+    {
+      "case": "real_duplicate_business_data",
+      "baseline_a_key_correct": false,
+      "baseline_b_key_correct": false,
+      "skill_key_correct": true,
+      "mapping": {
+        "true_positive": 2,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "missing": {
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "missing_in_source": {
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "missing_in_target": {
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "mismatch": {
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "predicted_missing_in_source": [],
+      "predicted_missing_in_target": [],
+      "predicted_mismatches": [],
+      "human_confirmations_required": 1,
+      "silent_high_risk_mapping": 0,
+      "runtime_seconds": 0.034207,
+      "llm_calls": 0
+    },
+    {
+      "case": "real_null_keys",
+      "baseline_a_key_correct": true,
+      "baseline_b_key_correct": false,
+      "skill_key_correct": true,
+      "mapping": {
+        "true_positive": 2,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "missing": {
+        "true_positive": 2,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "missing_in_source": {
+        "true_positive": 1,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "missing_in_target": {
+        "true_positive": 1,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "mismatch": {
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "predicted_missing_in_source": [
+        null
+      ],
+      "predicted_missing_in_target": [
+        null
+      ],
+      "predicted_mismatches": [],
+      "human_confirmations_required": 0,
+      "silent_high_risk_mapping": 0,
+      "runtime_seconds": 0.032982,
+      "llm_calls": 0
+    },
+    {
+      "case": "real_mixed_dates",
+      "baseline_a_key_correct": true,
+      "baseline_b_key_correct": true,
+      "skill_key_correct": true,
+      "mapping": {
+        "true_positive": 2,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "missing": {
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "missing_in_source": {
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "missing_in_target": {
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "mismatch": {
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "predicted_missing_in_source": [],
+      "predicted_missing_in_target": [],
+      "predicted_mismatches": [],
+      "human_confirmations_required": 1,
+      "silent_high_risk_mapping": 0,
+      "runtime_seconds": 0.035901,
+      "llm_calls": 0
+    },
+    {
+      "case": "real_enum_difference",
+      "baseline_a_key_correct": true,
+      "baseline_b_key_correct": false,
+      "skill_key_correct": true,
+      "mapping": {
+        "true_positive": 2,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "missing": {
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "missing_in_source": {
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "missing_in_target": {
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "mismatch": {
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 2,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      "predicted_missing_in_source": [],
+      "predicted_missing_in_target": [],
+      "predicted_mismatches": [],
+      "human_confirmations_required": 1,
+      "silent_high_risk_mapping": 0,
+      "runtime_seconds": 0.045342,
       "llm_calls": 0
     }
   ]

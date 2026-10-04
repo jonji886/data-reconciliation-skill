@@ -1,0 +1,4 @@
+order_id,customer_id,total_amount,status,created_at
+O001,C001,100,SUCCESS,2026-01-01
+O002,C002,201,SUCCESS,2026-01-02
+O004,C004,400,SUCCESS,2026-01-04

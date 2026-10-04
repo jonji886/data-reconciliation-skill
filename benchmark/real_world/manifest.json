@@ -1,0 +1,102 @@
+[
+  {
+    "name": "real_erp_order",
+    "source": "erp_order_source.csv",
+    "target": "erp_order_target.csv",
+    "expected_key": ["订单号", "order_id"],
+    "expected_mappings": [["订单号", "order_id"], ["客户编号", "customer_id"], ["订单金额", "total_amount"], ["订单状态", "status"], ["创建时间", "created_at"]],
+    "expected_missing_in_source": ["O004"],
+    "expected_missing_in_target": ["O003"],
+    "expected_mismatches": [["O002", "订单金额", "total_amount", "NUMERIC_TOLERANCE_MISMATCH"], ["O001", "订单状态", "status", "ENUM_MAPPING_REQUIRED"], ["O002", "订单状态", "status", "ENUM_MAPPING_REQUIRED"]]
+  },
+  {
+    "name": "real_crm_customer",
+    "source": "crm_customer_source.csv",
+    "target": "crm_customer_target.csv",
+    "expected_key": ["客户编号", "client_id"],
+    "expected_mappings": [["客户编号", "client_id"], ["客户名称", "company_name"], ["手机号", "mobile"], ["等级", "customer_level"]],
+    "expected_missing_in_source": [],
+    "expected_missing_in_target": [],
+    "expected_mismatches": []
+  },
+  {
+    "name": "real_inventory",
+    "source": "inventory_source.csv",
+    "target": "inventory_target.csv",
+    "expected_key": ["SKU", "sku"],
+    "expected_mappings": [["SKU", "sku"], ["仓库", "warehouse"], ["可售库存", "available_qty"], ["冻结库存", "blocked_qty"]],
+    "expected_missing_in_source": [],
+    "expected_missing_in_target": [],
+    "expected_mismatches": []
+  },
+  {
+    "name": "real_payment",
+    "source": "payment_source.csv",
+    "target": "payment_target.csv",
+    "expected_key": ["交易号", "transaction_id"],
+    "expected_mappings": [["订单号", "order_no"], ["交易号", "transaction_id"], ["支付金额", "paid_amount"], ["支付状态", "payment_status"]],
+    "expected_missing_in_source": [],
+    "expected_missing_in_target": [],
+    "expected_mismatches": [["T002", "支付金额", "paid_amount", "NUMERIC_TOLERANCE_MISMATCH"]]
+  },
+  {
+    "name": "real_migration",
+    "source": "migration_source.csv",
+    "target": "migration_target.csv",
+    "expected_key": ["user_code", "customer_no"],
+    "expected_mappings": [["user_code", "customer_no"], ["name", "customer_name"], ["status", "state"]],
+    "expected_missing_in_source": [],
+    "expected_missing_in_target": [],
+    "expected_mismatches": []
+  },
+  {
+    "name": "real_case_sensitive_account",
+    "source": "account_source.csv",
+    "target": "account_target.csv",
+    "expected_key": ["external_id", "external_id"],
+    "expected_mappings": [["external_id", "external_id"], ["account_name", "account_name"]],
+    "expected_missing_in_source": ["ABC002"],
+    "expected_missing_in_target": ["abc001"],
+    "expected_mismatches": []
+  },
+  {
+    "name": "real_duplicate_business_data",
+    "source": "duplicate_source.csv",
+    "target": "duplicate_target.csv",
+    "expected_key": ["order_no", "order_id"],
+    "expected_mappings": [["order_no", "order_id"], ["amount", "amount"]],
+    "expected_missing_in_source": [],
+    "expected_missing_in_target": [],
+    "expected_mismatches": []
+  },
+  {
+    "name": "real_null_keys",
+    "source": "null_source.csv",
+    "target": "null_target.csv",
+    "expected_key": ["record_id", "record_id"],
+    "expected_mappings": [["record_id", "record_id"], ["value", "value"]],
+    "expected_missing_in_source": [null],
+    "expected_missing_in_target": [null],
+    "expected_mismatches": []
+  },
+  {
+    "name": "real_mixed_dates",
+    "source": "date_source.csv",
+    "target": "date_target.csv",
+    "expected_key": ["order_id", "order_id"],
+    "expected_mappings": [["order_id", "order_id"], ["created_time", "created_at"]],
+    "expected_missing_in_source": [],
+    "expected_missing_in_target": [],
+    "expected_mismatches": []
+  },
+  {
+    "name": "real_enum_difference",
+    "source": "enum_source.csv",
+    "target": "enum_target.csv",
+    "expected_key": ["order_id", "order_id"],
+    "expected_mappings": [["order_id", "order_id"], ["status", "status"]],
+    "expected_missing_in_source": [],
+    "expected_missing_in_target": [],
+    "expected_mismatches": [["O001", "status", "status", "ENUM_MAPPING_REQUIRED"], ["O002", "status", "status", "ENUM_MAPPING_REQUIRED"]]
+  }
+]
