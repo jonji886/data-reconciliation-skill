@@ -19,9 +19,9 @@ def test_missing_duplicate_and_mismatch_summary():
     assert result.summary.missing_in_source == 1
     assert result.summary.duplicate_source_keys == 1
     assert result.summary.value_mismatches == 1
-    assert result.value_mismatch[0]["reconciliation_key"] == "a002"
+    assert result.value_mismatch[0]["reconciliation_key"] == "A002"
     assert len(result.duplicate_source) == 2
-    assert all(row["reconciliation_key"] == "a001" for row in result.duplicate_source)
+    assert all(row["reconciliation_key"] == "A001" for row in result.duplicate_source)
     assert "excluded from normal record-level comparison" in result.warnings[0]
 
 

@@ -39,9 +39,13 @@ def test_report_has_required_sheets(tmp_path: Path):
     report, mapping = write_report(result, tmp_path, source_key="id", target_key="id")
     assert report.exists() and mapping.exists()
     loaded_mapping = load_mapping_yaml(mapping)
-    assert loaded_mapping.key == {"source": "id", "target": "id"}
+    assert loaded_mapping.key == {"source": "id", "target": "id", "case_sensitive": True}
     workbook = load_workbook(report, read_only=True)
     assert set(workbook.sheetnames) == {
         "Summary", "Mapping", "Missing_In_Source", "Missing_In_Target", "Duplicate_Source",
         "Duplicate_Target", "Value_Mismatch", "Diagnostics",
     }
+    summary_labels = {row[0].value for row in workbook["Summary"].iter_rows() if row[0].value}
+    assert "Matched Unique Keys" in summary_labels
+    assert "Duplicate Source Keys" in summary_labels
+    assert "Duplicate Source Rows" in summary_labels

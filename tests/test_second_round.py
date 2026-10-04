@@ -116,10 +116,21 @@ def test_formula_like_strings_are_safe_and_negative_numbers_survive(tmp_path: Pa
     assert sanitize_excel_cell("=1+1").startswith("'")
     assert sanitize_excel_cell("+SUM(A1:A2)").startswith("'")
     assert sanitize_excel_cell("@SUM(1,1)").startswith("'")
+    assert sanitize_excel_cell("=1+1").startswith("'")
     assert sanitize_excel_cell("-123.45") == "-123.45"
     result = __import__("reconcile_skill.reconciler", fromlist=["reconcile"]).reconcile(
-        pd.DataFrame({"id": ["A001"], "value": ["=HYPERLINK(\"https://example.com\")"]}),
-        pd.DataFrame({"id": ["A001"], "value": ["safe"]}),
+        pd.DataFrame(
+            {
+                "id": ["A001", "A002", "A003", "A004"],
+                "value": [
+                    "=1+1",
+                    '=HYPERLINK("https://example.com")',
+                    "@SUM(1,1)",
+                    "+SUM(1,1)",
+                ],
+            }
+        ),
+        pd.DataFrame({"id": ["A001", "A002", "A003", "A004"], "value": ["safe"] * 4}),
         source_key="id",
         target_key="id",
         rules=[CompareRule(source_column="value", target_column="value", rule_type="string")],
