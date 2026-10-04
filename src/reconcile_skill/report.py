@@ -44,10 +44,20 @@ def _safe_frame(frame: pd.DataFrame) -> pd.DataFrame:
     return safe
 
 
-def write_mapping_yaml(result: ReconciliationResult, output_path: str | Path, *, source_key: str, target_key: str) -> Path:
+def write_mapping_yaml(
+    result: ReconciliationResult,
+    output_path: str | Path,
+    *,
+    source_key: str,
+    target_key: str,
+    key_case_sensitive: bool = True,
+) -> Path:
     path = Path(output_path)
     path.parent.mkdir(parents=True, exist_ok=True)
-    spec = MappingSpec(key={"source": source_key, "target": target_key}, fields=result.mapping)
+    spec = MappingSpec(
+        key={"source": source_key, "target": target_key, "case_sensitive": key_case_sensitive},
+        fields=result.mapping,
+    )
     payload = {
         "version": spec.version,
         "key": spec.key,
@@ -76,33 +86,67 @@ def write_report(
     source_file: str = "",
     target_file: str = "",
     mapping_suggestions: list[dict[str, Any]] | None = None,
+    key_case_sensitive: bool = True,
 ) -> tuple[Path, Path]:
     output = Path(output_dir)
     output.mkdir(parents=True, exist_ok=True)
-    summary = result.summary.model_dump()
-    summary.update(
-        {
-            "run_id": result.run_id,
-            "run_timestamp": result.run_timestamp.isoformat(),
-            "source_file": source_file,
-            "target_file": target_file,
-            "source_key": source_key,
-            "target_key": target_key,
-            "warnings": " | ".join(result.warnings),
-        }
-    )
+    summary = {
+        "Source Row Count": result.summary.source_row_count,
+        "Target Row Count": result.summary.target_row_count,
+        "Matched Unique Keys": result.summary.matched_unique_key_count,
+        "Missing In Source Keys": result.summary.missing_source_key_count,
+        "Missing In Source Rows": result.summary.missing_source_row_count,
+        "Missing In Target Keys": result.summary.missing_target_key_count,
+        "Missing In Target Rows": result.summary.missing_target_row_count,
+        "Duplicate Source Keys": result.summary.duplicate_source_key_count,
+        "Duplicate Source Rows": result.summary.duplicate_source_row_count,
+        "Duplicate Target Keys": result.summary.duplicate_target_key_count,
+        "Duplicate Target Rows": result.summary.duplicate_target_row_count,
+        "Value Mismatch Count": result.summary.value_mismatch_count,
+        "Key Case Sensitive": key_case_sensitive,
+        "Run ID": result.run_id,
+        "Run Timestamp": result.run_timestamp.isoformat(),
+        "Source File": source_file,
+        "Target File": target_file,
+        "Source Key": source_key,
+        "Target Key": target_key,
+        "Warnings": " | ".join(result.warnings),
+    }
     mapping_rows = mapping_suggestions or [rule.model_dump() for rule in result.mapping]
     report_path = output / "reconciliation_report.xlsx"
     with pd.ExcelWriter(report_path, engine="openpyxl") as writer:
         _safe_frame(pd.DataFrame([summary]).T.rename(columns={0: "value"})).to_excel(
             writer, sheet_name="Summary", header=True
         )
-        _safe_frame(_frame(mapping_rows)).to_excel(writer, sheet_name="Mapping", index=False)
-        _safe_frame(_frame(result.missing_in_source)).to_excel(writer, sheet_name="Missing_In_Source", index=False)
-        _safe_frame(_frame(result.missing_in_target)).to_excel(writer, sheet_name="Missing_In_Target", index=False)
-        _safe_frame(_frame(result.duplicate_source)).to_excel(writer, sheet_name="Duplicate_Source", index=False)
-        _safe_frame(_frame(result.duplicate_target)).to_excel(writer, sheet_name="Duplicate_Target", index=False)
-        _safe_frame(_frame(result.value_mismatch)).to_excel(writer, sheet_name="Value_Mismatch", index=False)
-        _safe_frame(_frame(result.diagnostics)).to_excel(writer, sheet_name="Diagnostics", index=False)
-    mapping_path = write_mapping_yaml(result, output / "mapping.yaml", source_key=source_key, target_key=target_key)
+        _safe_frame(_frame(mapping_rows, ["source_column", "target_column", "mapping_type", "confidence"])).to_excel(
+            writer, sheet_name="Mapping", index=False
+        )
+        _safe_frame(_frame(result.missing_in_source, ["reconciliation_key", "row_number"])).to_excel(
+            writer, sheet_name="Missing_In_Source", index=False
+        )
+        _safe_frame(_frame(result.missing_in_target, ["reconciliation_key", "row_number"])).to_excel(
+            writer, sheet_name="Missing_In_Target", index=False
+        )
+        _safe_frame(_frame(result.duplicate_source, ["reconciliation_key", "duplicate_count", "row_number"])).to_excel(
+            writer, sheet_name="Duplicate_Source", index=False
+        )
+        _safe_frame(_frame(result.duplicate_target, ["reconciliation_key", "duplicate_count", "row_number"])).to_excel(
+            writer, sheet_name="Duplicate_Target", index=False
+        )
+        _safe_frame(
+            _frame(
+                result.value_mismatch,
+                ["reconciliation_key", "source_column", "target_column", "difference_type"],
+            )
+        ).to_excel(writer, sheet_name="Value_Mismatch", index=False)
+        _safe_frame(_frame(result.diagnostics, ["type", "fact", "hypothesis", "confidence"])).to_excel(
+            writer, sheet_name="Diagnostics", index=False
+        )
+    mapping_path = write_mapping_yaml(
+        result,
+        output / "mapping.yaml",
+        source_key=source_key,
+        target_key=target_key,
+        key_case_sensitive=key_case_sensitive,
+    )
     return report_path, mapping_path

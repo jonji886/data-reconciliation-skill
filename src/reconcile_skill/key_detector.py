@@ -53,13 +53,16 @@ def detect_key_candidates(
             identifier_semantics = float(
                 source.inferred_semantic_type == "identifier" and target.inferred_semantic_type == "identifier"
             )
+            # Identifier semantics deliberately outweigh accidental uniqueness
+            # or value overlap. A duplicated business key should still outrank
+            # a unique amount/name column so it can be reported as duplicate.
             score = (
-                0.28 * min(source_unique, target_unique)
-                + 0.15 * non_null
+                0.24 * min(source_unique, target_unique)
+                + 0.12 * non_null
                 + 0.18 * name
-                + 0.18 * overlap
-                + 0.05 * dtype
-                + 0.16 * identifier_semantics
+                + 0.16 * overlap
+                + 0.04 * dtype
+                + 0.26 * identifier_semantics
             )
             score = round(min(max(score, 0.0), 1.0), 4)
             reasons = [
@@ -83,5 +86,8 @@ def detect_key_candidates(
                     requires_confirmation=score < 0.95,
                 )
             )
-    candidates.sort(key=lambda item: (-item.score, item.source_column or "", item.target_column or ""))
+    # Preserve source/target column order for genuinely tied candidates. This
+    # keeps a user's file order as the deterministic tie-breaker rather than
+    # making lexicographic ordering decide between equally plausible IDs.
+    candidates.sort(key=lambda item: -item.score)
     return candidates[:limit]

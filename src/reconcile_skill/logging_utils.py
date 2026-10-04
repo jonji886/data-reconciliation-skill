@@ -28,6 +28,7 @@ def write_run_log(
     target_key: str,
     result: ReconciliationResult,
     started_at: float,
+    key_case_sensitive: bool = True,
 ) -> Path:
     output = Path(output_dir)
     output.mkdir(parents=True, exist_ok=True)
@@ -41,6 +42,7 @@ def write_run_log(
         "target_sha256": sha256_file(target_path),
         "source_key": source_key,
         "target_key": target_key,
+        "key_case_sensitive": key_case_sensitive,
         "mapping_count": len(result.mapping),
         "warnings": result.warnings,
         "llm_calls": 0,

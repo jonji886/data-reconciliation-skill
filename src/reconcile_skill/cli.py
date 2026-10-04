@@ -12,7 +12,7 @@ from .errors import ReconciliationError
 from .key_detector import detect_key_candidates
 from .loaders import load_table
 from .logging_utils import write_run_log
-from .mapping import rules_from_suggestions
+from .mapping import infer_manual_mapping_type, rules_from_suggestions
 from .models import KeyCandidate
 from .profiler import profile_dataframe
 from .reconciler import reconcile
@@ -60,7 +60,34 @@ def _choose_key(
         typer.echo("请输入 1-3、M 或 A。")
 
 
-def _choose_mapping(suggestion, *, target_columns: list[str], non_interactive: bool):
+def _choose_mapping(
+    suggestion,
+    *,
+    target_columns: list[str],
+    source_profile,
+    target_profile,
+    non_interactive: bool,
+):
+    def manual_choice(target: str):
+        mapping_type = infer_manual_mapping_type(
+            source_profile,
+            target_profile,
+            suggestion.source_column,
+            target,
+        )
+        typer.echo(f"Detected type: {mapping_type.upper()}")
+        if mapping_type == "numeric":
+            typer.echo("Suggested tolerance: 0.01")
+        if not typer.confirm("Accept this mapping?", default=False):
+            return None
+        return suggestion.model_copy(
+            update={
+                "target_column": target,
+                "mapping_type": mapping_type,
+                "requires_confirmation": False,
+            }
+        )
+
     if suggestion.target_column is None:
         typer.echo(f"没有达到自动映射阈值: {suggestion.source_column}")
         if non_interactive:
@@ -75,9 +102,7 @@ def _choose_mapping(suggestion, *, target_columns: list[str], non_interactive: b
                 if target not in target_columns:
                     typer.echo("Target 字段不存在，请重新输入。")
                     continue
-                return suggestion.model_copy(
-                    update={"target_column": target, "mapping_type": "string", "requires_confirmation": False}
-                )
+                return manual_choice(target)
             typer.echo("请输入 S 或 M。")
     if not suggestion.requires_confirmation:
         return suggestion
@@ -101,7 +126,7 @@ def _choose_mapping(suggestion, *, target_columns: list[str], non_interactive: b
             if target not in target_columns:
                 typer.echo("Target 字段不存在，请重新输入。")
                 continue
-            return suggestion.model_copy(update={"target_column": target, "requires_confirmation": False})
+            return manual_choice(target)
         if answer.isdigit() and 1 <= int(answer) <= len(candidates):
             candidate = candidates[int(answer) - 1]
             target = candidate["target_column"]
@@ -141,10 +166,12 @@ def reconcile_command(
             raise ReconciliationError("KEY_NOT_FOUND", "没有找到可用的跨表主键候选。")
         typer.echo(f"Source: {source_table.file_name} rows={source_profile.row_count} columns={source_profile.column_count}")
         typer.echo(f"Target: {target_table.file_name} rows={target_profile.row_count} columns={target_profile.column_count}")
+        key_case_sensitive = True
         if mapping is not None:
             saved_spec = load_mapping_yaml(mapping)
             source_key = saved_spec.key.get("source", "")
             target_key = saved_spec.key.get("target", "")
+            key_case_sensitive = bool(saved_spec.key.get("case_sensitive", True))
             if not source_key or not target_key:
                 raise ReconciliationError("SCHEMA_ERROR", "Mapping YAML 缺少 key.source 或 key.target。")
             selected = KeyCandidate(
@@ -174,6 +201,8 @@ def reconcile_command(
                 chosen = _choose_mapping(
                     suggestion,
                     target_columns=list(target_table.dataframe.columns),
+                    source_profile=source_profile,
+                    target_profile=target_profile,
                     non_interactive=non_interactive,
                 )
                 if chosen is not None:
@@ -187,6 +216,7 @@ def reconcile_command(
             source_key=selected.source_column or "",
             target_key=selected.target_column or "",
             rules=rules,
+            case_sensitive=key_case_sensitive,
         )
         report_path, mapping_path = write_report(
             result,
@@ -196,6 +226,7 @@ def reconcile_command(
             source_file=source_table.file_name,
             target_file=target_table.file_name,
             mapping_suggestions=[item.model_dump() for item in suggestions] if suggestions else [item.model_dump() for item in rules],
+            key_case_sensitive=key_case_sensitive,
         )
         log_path = write_run_log(
             output,
@@ -205,6 +236,7 @@ def reconcile_command(
             target_key=selected.target_column or "",
             result=result,
             started_at=started_at,
+            key_case_sensitive=key_case_sensitive,
         )
         typer.echo(f"完成: {report_path}")
         typer.echo(f"Mapping: {mapping_path}")

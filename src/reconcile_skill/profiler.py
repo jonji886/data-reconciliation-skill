@@ -11,7 +11,20 @@ from .loaders import LoadedTable
 from .models import ColumnProfile, TableProfile
 from .semantic_matcher import semantic_tokens
 
-_ID_WORDS = {"id", "code", "no", "number", "编号", "编码", "订单号", "客户号", "用户号"}
+_ID_WORDS = {
+    "id",
+    "code",
+    "no",
+    "number",
+    "sku",
+    "external",
+    "legacy",
+    "编号",
+    "编码",
+    "订单号",
+    "客户号",
+    "用户号",
+}
 _STATUS_WORDS = {"status", "state", "type", "category", "状态", "类型", "分类"}
 _DATE_WORDS = {"date", "time", "at", "日期", "时间", "创建", "更新", "created", "updated"}
 _AMOUNT_WORDS = {"amount", "price", "total", "fee", "cost", "金额", "价格", "费用", "总额"}

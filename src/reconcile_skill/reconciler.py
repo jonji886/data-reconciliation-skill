@@ -21,22 +21,33 @@ def _row_record(row: pd.Series, *, reconciliation_key: str | None, row_number: i
     return record
 
 
-def _records_for_keys(df: pd.DataFrame, key_column: str, keys: set[str | None]) -> list[dict[str, Any]]:
+def _records_for_keys(
+    df: pd.DataFrame,
+    key_column: str,
+    keys: set[str | None],
+    *,
+    case_sensitive: bool = True,
+) -> list[dict[str, Any]]:
     records: list[dict[str, Any]] = []
     for row_number, (_, row) in enumerate(df.iterrows(), start=1):
-        key = normalize_key(row[key_column])
+        key = normalize_key(row[key_column], case_sensitive=case_sensitive)
         if key in keys:
             records.append(_row_record(row, reconciliation_key=key, row_number=row_number))
     return records
 
 
-def _duplicate_records(df: pd.DataFrame, key_column: str) -> list[dict[str, Any]]:
-    keys = df[key_column].map(normalize_key)
+def _duplicate_records(
+    df: pd.DataFrame,
+    key_column: str,
+    *,
+    case_sensitive: bool = True,
+) -> list[dict[str, Any]]:
+    keys = df[key_column].map(lambda value: normalize_key(value, case_sensitive=case_sensitive))
     counts = keys.value_counts(dropna=False)
     duplicate_keys = {key for key, count in counts.items() if key is not None and count > 1}
     records: list[dict[str, Any]] = []
     for row_number, (_, row) in enumerate(df.iterrows(), start=1):
-        key = normalize_key(row[key_column])
+        key = normalize_key(row[key_column], case_sensitive=case_sensitive)
         if key in duplicate_keys:
             record = _row_record(row, reconciliation_key=key, row_number=row_number)
             record["duplicate_count"] = int(counts[key])
@@ -53,6 +64,7 @@ def reconcile(
     target_key: str,
     rules: list[CompareRule],
     run_id: str | None = None,
+    case_sensitive: bool = True,
 ) -> ReconciliationResult:
     target_to_sources: dict[str, list[str]] = {}
     for rule in rules:
@@ -71,15 +83,16 @@ def reconcile(
         if column not in target_df.columns:
             raise ReconciliationError("KEY_NOT_FOUND" if column == target_key else "SCHEMA_ERROR", f"Target 字段不存在: {column}")
 
-    source_keys = source_df[source_key].map(normalize_key)
-    target_keys = target_df[target_key].map(normalize_key)
+    key_normalizer = lambda value: normalize_key(value, case_sensitive=case_sensitive)
+    source_keys = source_df[source_key].map(key_normalizer)
+    target_keys = target_df[target_key].map(key_normalizer)
     source_null_count, target_null_count = int(source_keys.isna().sum()), int(target_keys.isna().sum())
     source_key_set = {key for key in source_keys if key is not None}
     target_key_set = {key for key in target_keys if key is not None}
     source_only, target_only, matched = source_key_set - target_key_set, target_key_set - source_key_set, source_key_set & target_key_set
 
-    duplicate_source = _duplicate_records(source_df, source_key)
-    duplicate_target = _duplicate_records(target_df, target_key)
+    duplicate_source = _duplicate_records(source_df, source_key, case_sensitive=case_sensitive)
+    duplicate_target = _duplicate_records(target_df, target_key, case_sensitive=case_sensitive)
     duplicate_source_keys = {record["reconciliation_key"] for record in duplicate_source}
     duplicate_target_keys = {record["reconciliation_key"] for record in duplicate_target}
     safe_matched = matched - duplicate_source_keys - duplicate_target_keys
@@ -125,19 +138,32 @@ def reconcile(
         warnings.append("Source 主键不满足唯一性；Duplicate keys are excluded from normal record-level comparison.")
     if duplicate_target:
         warnings.append("Target 主键不满足唯一性；Duplicate keys are excluded from normal record-level comparison.")
-    missing_source = _records_for_keys(target_df, target_key, target_only)
-    missing_target = _records_for_keys(source_df, source_key, source_only)
+    missing_source = _records_for_keys(target_df, target_key, target_only, case_sensitive=case_sensitive)
+    missing_target = _records_for_keys(source_df, source_key, source_only, case_sensitive=case_sensitive)
     if source_null_count:
-        missing_target.extend(_records_for_keys(source_df, source_key, {None}))
+        missing_target.extend(_records_for_keys(source_df, source_key, {None}, case_sensitive=case_sensitive))
     if target_null_count:
-        missing_source.extend(_records_for_keys(target_df, target_key, {None}))
+        missing_source.extend(_records_for_keys(target_df, target_key, {None}, case_sensitive=case_sensitive))
     diagnostics = diagnose_missing_patterns(missing_target)
     summary = ReconciliationSummary(
+        source_row_count=len(source_df),
+        target_row_count=len(target_df),
+        matched_key_count=len(safe_matched),
+        matched_unique_key_count=len(safe_matched),
+        missing_source_key_count=len(target_only),
+        missing_source_row_count=len(missing_source),
+        missing_target_key_count=len(source_only),
+        missing_target_row_count=len(missing_target),
+        duplicate_source_key_count=len(duplicate_source_keys),
+        duplicate_source_row_count=len(duplicate_source),
+        duplicate_target_key_count=len(duplicate_target_keys),
+        duplicate_target_row_count=len(duplicate_target),
+        value_mismatch_count=len(mismatches),
         source_rows=len(source_df),
         target_rows=len(target_df),
         matched_rows=len(safe_matched),
-        missing_in_source=len(target_only) + target_null_count,
-        missing_in_target=len(source_only) + source_null_count,
+        missing_in_source=len(missing_source),
+        missing_in_target=len(missing_target),
         duplicate_source_keys=len(duplicate_source_keys),
         duplicate_target_keys=len(duplicate_target_keys),
         value_mismatches=len(mismatches),

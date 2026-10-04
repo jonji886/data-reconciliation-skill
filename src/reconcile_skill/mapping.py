@@ -3,7 +3,31 @@
 from __future__ import annotations
 
 from .errors import ConfirmationRequired, ReconciliationError
-from .models import CompareRule, MappingSuggestion
+from .models import CompareRule, MappingSuggestion, TableProfile
+
+
+def infer_manual_mapping_type(
+    source_profile: TableProfile,
+    target_profile: TableProfile,
+    source_column: str,
+    target_column: str,
+) -> str:
+    """Infer a manual mapping rule from the already computed column profiles."""
+
+    source = next((item for item in source_profile.columns if item.name == source_column), None)
+    target = next((item for item in target_profile.columns if item.name == target_column), None)
+    if source is None or target is None:
+        raise ReconciliationError("SCHEMA_ERROR", "手动 Mapping 指定的字段不存在于 Profile。")
+    semantic_types = {source.inferred_semantic_type, target.inferred_semantic_type}
+    if "datetime" in semantic_types:
+        return "datetime"
+    if semantic_types & {"amount", "number"}:
+        return "numeric"
+    if "enum" in semantic_types:
+        return "enum"
+    if "identifier" in semantic_types:
+        return "identifier"
+    return "string"
 
 
 def mapping_collisions(suggestions: list[MappingSuggestion]) -> dict[str, list[str]]:

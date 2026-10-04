@@ -15,6 +15,11 @@ def load_mapping_yaml(path: str | Path) -> MappingSpec:
         payload = yaml.safe_load(Path(path).read_text(encoding="utf-8"))
         if not isinstance(payload, dict):
             raise ValueError("根节点必须是对象")
+        key = payload.get("key", {})
+        if not isinstance(key, dict):
+            raise ValueError("key 必须是对象")
+        key.setdefault("case_sensitive", True)
+        payload["key"] = key
         normalized_fields = []
         for field in payload.get("fields", []):
             if not isinstance(field, dict):

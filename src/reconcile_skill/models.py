@@ -67,14 +67,34 @@ class CompareRule(BaseModel):
 
 
 class ReconciliationSummary(BaseModel):
-    source_rows: int
-    target_rows: int
-    matched_rows: int
-    missing_in_source: int
-    missing_in_target: int
-    duplicate_source_keys: int
-    duplicate_target_keys: int
-    value_mismatches: int
+    """Summary with explicit key-versus-row terminology.
+
+    The legacy fields remain serialized for consumers of the MVP API. They are
+    aliases populated by the engine and are intentionally omitted from the
+    human-facing Summary worksheet.
+    """
+
+    source_row_count: int
+    target_row_count: int
+    matched_key_count: int
+    matched_unique_key_count: int
+    missing_source_key_count: int
+    missing_source_row_count: int
+    missing_target_key_count: int
+    missing_target_row_count: int
+    duplicate_source_key_count: int
+    duplicate_source_row_count: int
+    duplicate_target_key_count: int
+    duplicate_target_row_count: int
+    value_mismatch_count: int
+    source_rows: int | None = None
+    target_rows: int | None = None
+    matched_rows: int | None = None
+    missing_in_source: int | None = None
+    missing_in_target: int | None = None
+    duplicate_source_keys: int | None = None
+    duplicate_target_keys: int | None = None
+    value_mismatches: int | None = None
 
 
 class ReconciliationResult(BaseModel):
@@ -93,5 +113,5 @@ class ReconciliationResult(BaseModel):
 
 class MappingSpec(BaseModel):
     version: int = 1
-    key: dict[str, str]
+    key: dict[str, str | bool]
     fields: list[CompareRule]

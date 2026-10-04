@@ -23,10 +23,29 @@ def is_null(value: Any) -> bool:
         return False
 
 
-def normalize_key(value: Any) -> str | None:
+def normalize_key(
+    value: Any,
+    *,
+    trim: bool = True,
+    collapse_whitespace: bool = True,
+    case_sensitive: bool = True,
+) -> str | None:
+    """Normalize a join key without changing identifier case by default.
+
+    Case folding is an explicit business rule because values such as ``ABC001``
+    and ``abc001`` can represent different identifiers in enterprise systems.
+    """
+
     if is_null(value):
         return None
-    return re.sub(r"\s+", " ", str(value).strip()).lower()
+    text = str(value)
+    if trim:
+        text = text.strip()
+    if collapse_whitespace:
+        text = re.sub(r"\s+", " ", text)
+    if not case_sensitive:
+        text = text.lower()
+    return text
 
 
 def parse_number(value: Any) -> Decimal | None:
