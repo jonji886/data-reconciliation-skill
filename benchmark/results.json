@@ -12,7 +12,7 @@
   "mismatch_f1": 0.6154,
   "false_positive_count": 0,
   "silent_high_risk_mapping": 0,
-  "runtime_seconds": 1.069157,
+  "runtime_seconds": 0.801969,
   "llm_calls": 0,
   "confirmation_safety": {
     "silent_high_risk_mapping": 0,
@@ -73,7 +73,7 @@
       "predicted_mismatches": [],
       "human_confirmations_required": 2,
       "silent_high_risk_mapping": 0,
-      "runtime_seconds": 0.037551,
+      "runtime_seconds": 0.028127,
       "llm_calls": 0
     },
     {
@@ -126,7 +126,7 @@
       "predicted_mismatches": [],
       "human_confirmations_required": 1,
       "silent_high_risk_mapping": 0,
-      "runtime_seconds": 0.030676,
+      "runtime_seconds": 0.021283,
       "llm_calls": 0
     },
     {
@@ -179,7 +179,7 @@
       "predicted_mismatches": [],
       "human_confirmations_required": 0,
       "silent_high_risk_mapping": 0,
-      "runtime_seconds": 0.018458,
+      "runtime_seconds": 0.014682,
       "llm_calls": 0
     },
     {
@@ -232,7 +232,7 @@
       "predicted_mismatches": [],
       "human_confirmations_required": 1,
       "silent_high_risk_mapping": 0,
-      "runtime_seconds": 0.021794,
+      "runtime_seconds": 0.014907,
       "llm_calls": 0
     },
     {
@@ -285,7 +285,7 @@
       "predicted_mismatches": [],
       "human_confirmations_required": 2,
       "silent_high_risk_mapping": 0,
-      "runtime_seconds": 0.031207,
+      "runtime_seconds": 0.022998,
       "llm_calls": 0
     },
     {
@@ -338,7 +338,7 @@
       "predicted_mismatches": [],
       "human_confirmations_required": 1,
       "silent_high_risk_mapping": 0,
-      "runtime_seconds": 0.028284,
+      "runtime_seconds": 0.016909,
       "llm_calls": 0
     },
     {
@@ -393,7 +393,7 @@
       "predicted_mismatches": [],
       "human_confirmations_required": 0,
       "silent_high_risk_mapping": 0,
-      "runtime_seconds": 0.006799,
+      "runtime_seconds": 0.017674,
       "llm_calls": 0
     },
     {
@@ -448,7 +448,7 @@
       "predicted_mismatches": [],
       "human_confirmations_required": 0,
       "silent_high_risk_mapping": 0,
-      "runtime_seconds": 0.013763,
+      "runtime_seconds": 0.010629,
       "llm_calls": 0
     },
     {
@@ -501,7 +501,7 @@
       "predicted_mismatches": [],
       "human_confirmations_required": 0,
       "silent_high_risk_mapping": 0,
-      "runtime_seconds": 0.016256,
+      "runtime_seconds": 0.007187,
       "llm_calls": 0
     },
     {
@@ -554,7 +554,7 @@
       "predicted_mismatches": [],
       "human_confirmations_required": 0,
       "silent_high_risk_mapping": 0,
-      "runtime_seconds": 0.016397,
+      "runtime_seconds": 0.012796,
       "llm_calls": 0
     },
     {
@@ -611,7 +611,7 @@
       "predicted_mismatches": [],
       "human_confirmations_required": 0,
       "silent_high_risk_mapping": 0,
-      "runtime_seconds": 0.019154,
+      "runtime_seconds": 0.017,
       "llm_calls": 0
     },
     {
@@ -668,7 +668,7 @@
       "predicted_mismatches": [],
       "human_confirmations_required": 0,
       "silent_high_risk_mapping": 0,
-      "runtime_seconds": 0.032393,
+      "runtime_seconds": 0.019769,
       "llm_calls": 0
     },
     {
@@ -721,7 +721,7 @@
       "predicted_mismatches": [],
       "human_confirmations_required": 1,
       "silent_high_risk_mapping": 0,
-      "runtime_seconds": 0.030687,
+      "runtime_seconds": 0.022846,
       "llm_calls": 0
     },
     {
@@ -781,7 +781,7 @@
       ],
       "human_confirmations_required": 1,
       "silent_high_risk_mapping": 0,
-      "runtime_seconds": 0.019679,
+      "runtime_seconds": 0.020317,
       "llm_calls": 0
     },
     {
@@ -834,7 +834,7 @@
       "predicted_mismatches": [],
       "human_confirmations_required": 1,
       "silent_high_risk_mapping": 0,
-      "runtime_seconds": 0.031935,
+      "runtime_seconds": 0.01977,
       "llm_calls": 0
     },
     {
@@ -887,7 +887,7 @@
       "predicted_mismatches": [],
       "human_confirmations_required": 1,
       "silent_high_risk_mapping": 0,
-      "runtime_seconds": 0.031371,
+      "runtime_seconds": 0.028315,
       "llm_calls": 0
     },
     {
@@ -940,7 +940,7 @@
       "predicted_mismatches": [],
       "human_confirmations_required": 1,
       "silent_high_risk_mapping": 0,
-      "runtime_seconds": 0.020005,
+      "runtime_seconds": 0.01577,
       "llm_calls": 0
     },
     {
@@ -1000,7 +1000,7 @@
       ],
       "human_confirmations_required": 0,
       "silent_high_risk_mapping": 0,
-      "runtime_seconds": 0.016236,
+      "runtime_seconds": 0.016276,
       "llm_calls": 0
     },
     {
@@ -1053,7 +1053,7 @@
       "predicted_mismatches": [],
       "human_confirmations_required": 1,
       "silent_high_risk_mapping": 0,
-      "runtime_seconds": 0.016907,
+      "runtime_seconds": 0.017921,
       "llm_calls": 0
     },
     {
@@ -1106,7 +1106,7 @@
       "predicted_mismatches": [],
       "human_confirmations_required": 0,
       "silent_high_risk_mapping": 0,
-      "runtime_seconds": 0.013414,
+      "runtime_seconds": 0.007191,
       "llm_calls": 0
     },
     {
@@ -1159,7 +1159,7 @@
       "predicted_mismatches": [],
       "human_confirmations_required": 2,
       "silent_high_risk_mapping": 0,
-      "runtime_seconds": 0.020146,
+      "runtime_seconds": 0.016886,
       "llm_calls": 0
     },
     {
@@ -1212,7 +1212,7 @@
       "predicted_mismatches": [],
       "human_confirmations_required": 1,
       "silent_high_risk_mapping": 0,
-      "runtime_seconds": 0.015775,
+      "runtime_seconds": 0.015473,
       "llm_calls": 0
     },
     {
@@ -1265,7 +1265,7 @@
       "predicted_mismatches": [],
       "human_confirmations_required": 2,
       "silent_high_risk_mapping": 0,
-      "runtime_seconds": 0.020573,
+      "runtime_seconds": 0.017004,
       "llm_calls": 0
     },
     {
@@ -1318,7 +1318,7 @@
       "predicted_mismatches": [],
       "human_confirmations_required": 2,
       "silent_high_risk_mapping": 0,
-      "runtime_seconds": 0.014336,
+      "runtime_seconds": 0.014655,
       "llm_calls": 0
     },
     {
@@ -1371,7 +1371,7 @@
       "predicted_mismatches": [],
       "human_confirmations_required": 1,
       "silent_high_risk_mapping": 0,
-      "runtime_seconds": 0.02848,
+      "runtime_seconds": 0.019645,
       "llm_calls": 0
     },
     {
@@ -1435,7 +1435,7 @@
       ],
       "human_confirmations_required": 5,
       "silent_high_risk_mapping": 0,
-      "runtime_seconds": 0.079107,
+      "runtime_seconds": 0.060013,
       "llm_calls": 0
     },
     {
@@ -1488,7 +1488,7 @@
       "predicted_mismatches": [],
       "human_confirmations_required": 4,
       "silent_high_risk_mapping": 0,
-      "runtime_seconds": 0.051184,
+      "runtime_seconds": 0.044622,
       "llm_calls": 0
     },
     {
@@ -1541,7 +1541,7 @@
       "predicted_mismatches": [],
       "human_confirmations_required": 3,
       "silent_high_risk_mapping": 0,
-      "runtime_seconds": 0.068457,
+      "runtime_seconds": 0.039487,
       "llm_calls": 0
     },
     {
@@ -1601,7 +1601,7 @@
       ],
       "human_confirmations_required": 3,
       "silent_high_risk_mapping": 0,
-      "runtime_seconds": 0.066763,
+      "runtime_seconds": 0.039504,
       "llm_calls": 0
     },
     {
@@ -1654,7 +1654,7 @@
       "predicted_mismatches": [],
       "human_confirmations_required": 3,
       "silent_high_risk_mapping": 0,
-      "runtime_seconds": 0.055347,
+      "runtime_seconds": 0.042224,
       "llm_calls": 0
     },
     {
@@ -1711,7 +1711,7 @@
       "predicted_mismatches": [],
       "human_confirmations_required": 1,
       "silent_high_risk_mapping": 0,
-      "runtime_seconds": 0.047591,
+      "runtime_seconds": 0.028755,
       "llm_calls": 0
     },
     {
@@ -1764,7 +1764,7 @@
       "predicted_mismatches": [],
       "human_confirmations_required": 1,
       "silent_high_risk_mapping": 0,
-      "runtime_seconds": 0.034207,
+      "runtime_seconds": 0.021247,
       "llm_calls": 0
     },
     {
@@ -1821,7 +1821,7 @@
       "predicted_mismatches": [],
       "human_confirmations_required": 0,
       "silent_high_risk_mapping": 0,
-      "runtime_seconds": 0.032982,
+      "runtime_seconds": 0.031965,
       "llm_calls": 0
     },
     {
@@ -1874,7 +1874,7 @@
       "predicted_mismatches": [],
       "human_confirmations_required": 1,
       "silent_high_risk_mapping": 0,
-      "runtime_seconds": 0.035901,
+      "runtime_seconds": 0.033032,
       "llm_calls": 0
     },
     {
@@ -1927,7 +1927,7 @@
       "predicted_mismatches": [],
       "human_confirmations_required": 1,
       "silent_high_risk_mapping": 0,
-      "runtime_seconds": 0.045342,
+      "runtime_seconds": 0.02509,
       "llm_calls": 0
     }
   ]

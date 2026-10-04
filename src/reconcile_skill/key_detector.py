@@ -25,9 +25,22 @@ def _compatibility(source_dtype: str, target_dtype: str) -> float:
     return 0.35
 
 
-def _overlap(source: pd.Series, target: pd.Series) -> float:
-    left = {normalize_key(value) for value in source if normalize_key(value) is not None}
-    right = {normalize_key(value) for value in target if normalize_key(value) is not None}
+def _overlap(
+    source: pd.Series,
+    target: pd.Series,
+    *,
+    case_sensitive: bool = True,
+) -> float:
+    left = {
+        normalize_key(value, case_sensitive=case_sensitive)
+        for value in source
+        if normalize_key(value, case_sensitive=case_sensitive) is not None
+    }
+    right = {
+        normalize_key(value, case_sensitive=case_sensitive)
+        for value in target
+        if normalize_key(value, case_sensitive=case_sensitive) is not None
+    }
     if not left or not right:
         return 0.0
     return len(left & right) / min(len(left), len(right))
@@ -40,13 +53,18 @@ def detect_key_candidates(
     target_df: pd.DataFrame,
     *,
     limit: int = 10,
+    case_sensitive: bool = True,
 ) -> list[KeyCandidate]:
     candidates: list[KeyCandidate] = []
     for source in source_profile.columns:
         for target in target_profile.columns:
             source_unique = source.unique_ratio if source.null_count < source_profile.row_count else 0.0
             target_unique = target.unique_ratio if target.null_count < target_profile.row_count else 0.0
-            overlap = _overlap(source_df[source.name], target_df[target.name])
+            overlap = _overlap(
+                source_df[source.name],
+                target_df[target.name],
+                case_sensitive=case_sensitive,
+            )
             name = _name_score(source.name, target.name)
             dtype = _compatibility(source.dtype, target.dtype)
             non_null = (1 - source.null_ratio + 1 - target.null_ratio) / 2

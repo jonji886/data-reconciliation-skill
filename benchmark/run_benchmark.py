@@ -147,7 +147,13 @@ def run_case(case: dict[str, Any]) -> dict[str, Any]:
     started = time.perf_counter()
     left, right = _load_tables(case)
     left_profile, right_profile = profile_dataframe(left), profile_dataframe(right)
-    candidates = detect_key_candidates(left_profile, right_profile, left.dataframe, right.dataframe)
+    candidates = detect_key_candidates(
+        left_profile,
+        right_profile,
+        left.dataframe,
+        right.dataframe,
+        case_sensitive=case.get("case_sensitive", True),
+    )
     predicted_key = (candidates[0].source_column, candidates[0].target_column) if candidates else None
     suggestions = suggest_column_mappings(left_profile, right_profile, left.dataframe, right.dataframe)
 

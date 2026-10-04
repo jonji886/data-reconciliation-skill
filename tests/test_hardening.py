@@ -12,6 +12,7 @@ from reconcile_skill.reconciler import reconcile
 from reconcile_skill.report import write_report
 from reconcile_skill.config import load_mapping_yaml
 from reconcile_skill.cli import app
+from reconcile_skill.key_detector import detect_key_candidates
 
 
 def test_identifier_keys_are_case_sensitive_by_default():
@@ -55,6 +56,27 @@ def test_explicit_case_insensitive_key_configuration_matches():
     assert result.summary.missing_target_row_count == 0
 
 
+def test_key_detection_uses_explicit_case_sensitivity():
+    source = LoadedTable(pd.DataFrame({"SKU": ["ABC001"]}), "source.csv", None)
+    target = LoadedTable(pd.DataFrame({"sku": ["abc001"]}), "target.csv", None)
+
+    case_sensitive = detect_key_candidates(
+        profile_dataframe(source),
+        profile_dataframe(target),
+        source.dataframe,
+        target.dataframe,
+    )
+    case_insensitive = detect_key_candidates(
+        profile_dataframe(source),
+        profile_dataframe(target),
+        source.dataframe,
+        target.dataframe,
+        case_sensitive=False,
+    )
+
+    assert case_insensitive[0].score > case_sensitive[0].score
+
+
 def test_manual_mapping_type_is_inferred_from_profiles():
     source = LoadedTable(pd.DataFrame({"订单金额": [100, 200], "订单状态": ["paid", "cancelled"]}), "source.csv", None)
     target = LoadedTable(pd.DataFrame({"total_amount": [100, 200], "status": ["SUCCESS", "CLOSED"]}), "target.csv", None)
@@ -63,6 +85,24 @@ def test_manual_mapping_type_is_inferred_from_profiles():
 
     assert infer_manual_mapping_type(source_profile, target_profile, "订单金额", "total_amount") == "numeric"
     assert infer_manual_mapping_type(source_profile, target_profile, "订单状态", "status") == "enum"
+
+
+def test_manual_mapping_types_cover_datetime_and_identifier():
+    source = LoadedTable(
+        pd.DataFrame({"创建时间": ["2026-01-01"], "商品编码": ["ABC001"]}),
+        "source.csv",
+        None,
+    )
+    target = LoadedTable(
+        pd.DataFrame({"created_at": ["2026-01-01"], "sku": ["ABC001"]}),
+        "target.csv",
+        None,
+    )
+    source_profile = profile_dataframe(source)
+    target_profile = profile_dataframe(target)
+
+    assert infer_manual_mapping_type(source_profile, target_profile, "创建时间", "created_at") == "datetime"
+    assert infer_manual_mapping_type(source_profile, target_profile, "商品编码", "sku") == "identifier"
 
 
 def test_case_sensitive_mapping_yaml_is_reusable(tmp_path: Path):

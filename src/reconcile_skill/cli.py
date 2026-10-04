@@ -159,19 +159,24 @@ def reconcile_command(
         target_table = load_table(target, sheet_name=target_sheet)
         source_profile = profile_dataframe(source_table)
         target_profile = profile_dataframe(target_table)
-        candidates = detect_key_candidates(source_profile, target_profile, source_table.dataframe, target_table.dataframe)
+        saved_spec = load_mapping_yaml(mapping) if mapping is not None else None
+        key_case_sensitive = bool(saved_spec.key.get("case_sensitive", True)) if saved_spec else True
+        candidates = detect_key_candidates(
+            source_profile,
+            target_profile,
+            source_table.dataframe,
+            target_table.dataframe,
+            case_sensitive=key_case_sensitive,
+        )
         source_profile.candidate_keys = candidates
         target_profile.candidate_keys = candidates
         if not candidates and mapping is None:
             raise ReconciliationError("KEY_NOT_FOUND", "没有找到可用的跨表主键候选。")
         typer.echo(f"Source: {source_table.file_name} rows={source_profile.row_count} columns={source_profile.column_count}")
         typer.echo(f"Target: {target_table.file_name} rows={target_profile.row_count} columns={target_profile.column_count}")
-        key_case_sensitive = True
-        if mapping is not None:
-            saved_spec = load_mapping_yaml(mapping)
+        if saved_spec is not None:
             source_key = saved_spec.key.get("source", "")
             target_key = saved_spec.key.get("target", "")
-            key_case_sensitive = bool(saved_spec.key.get("case_sensitive", True))
             if not source_key or not target_key:
                 raise ReconciliationError("SCHEMA_ERROR", "Mapping YAML 缺少 key.source 或 key.target。")
             selected = KeyCandidate(
