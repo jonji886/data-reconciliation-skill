@@ -361,9 +361,9 @@ Deterministic Engine
         │
         ├── Profile
         ├── Key Detection
+        ├── Mapping
         ├── Join
         ├── Diff
-        ├── Tolerance
         ├── Evidence
         └── Excel Report
 ```
@@ -372,16 +372,25 @@ Deterministic Engine
 
 重复键会单独进入 Duplicate sheet，并排除在普通 record-level value comparison 之外；确认后的 Mapping 可通过 YAML 重复运行。
 
+### Reliability principles
+
+- Deterministic computation: row counts, joins, missing/duplicate records, tolerance and mismatch identities come from Python.
+- Human confirmation: ambiguous keys, low-confidence mappings, collisions and enum differences do not execute silently.
+- Case-sensitive identifiers by default: `ABC001` and `abc001` are different unless the saved key rule explicitly opts out.
+- Duplicate isolation: duplicate keys remain visible in their dedicated report sheets and are excluded from ordinary value comparison.
+- Evidence-based reporting: every mismatch carries its reconciliation key, source/target columns, values and difference type.
+
 ## 14. Security
 
 - Local-first：文件默认只在本地读取和处理，当前默认 matcher 不需要 LLM Key。
 - Minimal LLM data exposure：日志仅记录文件名、SHA-256、规则元数据和摘要，不记录完整数据行。
 - Excel report 对用户来源的 `=`, `+`, `-`（非纯数值）和 `@` 前缀做文本转义，防止 Formula Injection。
 - 不静默推断业务枚举、金额单位、时区、一对多关系或冲突 Mapping。
+- 不自动修改用户原始 Excel；事实与假设分离，不把 Hypothesis 写成 Root Cause。
 
 ## 15. Benchmark
 
-Benchmark 包含 25 个端到端 case，覆盖中英文 Mapping、错误主键陷阱、缺失/重复/null、数值容差、日期、大小写、枚举、SKU、客户、库存、支付、订单和迁移场景。
+Benchmark 包含 25 个 synthetic case 和 10 个 anonymized realistic fixture，覆盖中英文 Mapping、错误主键陷阱、缺失/重复/null、数值容差、日期、大小写、枚举、SKU、客户、库存、支付、订单和迁移场景。
 
 运行：
 
@@ -389,7 +398,9 @@ Benchmark 包含 25 个端到端 case，覆盖中英文 Mapping、错误主键�
 uv run python benchmark/run_benchmark.py
 ```
 
-当前结果由 [`benchmark/results.json`](benchmark/results.json) 真实生成；该文件是指标唯一事实来源，包含 Key Detection Accuracy、Mapping Precision/Recall、Missing Record Recall、Mismatch Precision、False Positive、Confirmation Safety、Runtime、LLM Calls 及两个 baseline。详细设计和局限见 [`benchmark/README.md`](benchmark/README.md)。
+当前结果由 [`benchmark/results.json`](benchmark/results.json) 真实生成；该文件是指标唯一事实来源。Missing 和 mismatch 使用具体 identity 的 set-based Precision/Recall/F1，而不是只比较数量；同时记录 Key Detection Accuracy、Mapping Precision/Recall/F1、False Positive、Silent High-risk Mapping、Runtime 和 LLM Calls。详细设计和局限见 [`benchmark/README.md`](benchmark/README.md)。
+
+枚举值目前只检测差异并要求人工确认，不会自动把 `paid` 猜成 `SUCCESS`。
 
 ## 16. Quick Start
 
@@ -420,7 +431,14 @@ OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 uv run pytest -q
 OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 uv run python benchmark/run_benchmark.py
 ```
 
-## 17. 下一阶段可能扩展
+Summary 报告明确区分 `Matched Unique Keys`、`Missing ... Keys/Rows` 和 `Duplicate ... Keys/Rows`；旧版 API 字段仍保留为兼容别名。
+
+## 17. Limitation
+
+MVP currently does not infer arbitrary enterprise business rules automatically.
+金额单位、时区、一对多关系以及枚举 value mapping 仍需要人工确认或显式配置。
+
+## 18. 下一阶段可能扩展
 
 只有 MVP 得到真实使用验证后，再考虑：
 

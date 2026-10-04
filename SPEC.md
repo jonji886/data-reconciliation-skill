@@ -414,16 +414,25 @@ FAILED
 
 ```json
 {
-  "source_rows": 10028,
-  "target_rows": 9987,
-  "matched_rows": 9970,
-  "missing_in_source": 5,
-  "missing_in_target": 41,
-  "duplicate_source_keys": 3,
-  "duplicate_target_keys": 1,
-  "value_mismatches": 17
+  "source_row_count": 10028,
+  "target_row_count": 9987,
+  "matched_key_count": 9970,
+  "matched_unique_key_count": 9970,
+  "missing_source_key_count": 5,
+  "missing_source_row_count": 5,
+  "missing_target_key_count": 41,
+  "missing_target_row_count": 41,
+  "duplicate_source_key_count": 3,
+  "duplicate_source_row_count": 6,
+  "duplicate_target_key_count": 1,
+  "duplicate_target_row_count": 2,
+  "value_mismatch_count": 17
 }
 ```
+
+The legacy summary names remain available in the Python/API log output for
+backward compatibility. The Excel Summary sheet uses the explicit key/row
+names above.
 
 ---
 
