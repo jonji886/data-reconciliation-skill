@@ -35,6 +35,24 @@ from reconcile_skill.semantic_matcher import semantic_tokens, suggest_column_map
 ROOT = Path(__file__).parent
 REAL_WORLD_ROOT = ROOT / "real_world"
 
+HISTORICAL_BASELINE = {
+    "source": "benchmark/results.json before the correctness fix",
+    "note": "Historical baseline preserved for before/after comparison; Golden Labels were not changed.",
+    "cases": 35,
+    "key_detection_accuracy": 1.0,
+    "mapping_precision": 1.0,
+    "mapping_recall": 1.0,
+    "mapping_f1": 1.0,
+    "missing_record_precision": 1.0,
+    "missing_record_recall": 1.0,
+    "missing_record_f1": 1.0,
+    "mismatch_precision": 1.0,
+    "mismatch_recall": 0.4444,
+    "mismatch_f1": 0.6154,
+    "false_positive_count": 0,
+    "silent_high_risk_mapping": 0,
+}
+
 
 def _case(
     name: str,
@@ -177,6 +195,7 @@ def run_case(case: dict[str, Any]) -> dict[str, Any]:
     silent_high_risk = 0
     rules = rules_from_suggestions(safe_suggestions, confirmed_columns=confirmed, numeric_tolerance=0.01)
 
+    result = None
     if predicted_key:
         result = reconcile(left.dataframe, right.dataframe, source_key=predicted_key[0], target_key=predicted_key[1], rules=rules, case_sensitive=case.get("case_sensitive", True))
         predicted_missing_in_source = _identity_set(result.missing_in_source)
@@ -193,6 +212,74 @@ def run_case(case: dict[str, Any]) -> dict[str, Any]:
     missing_metrics = _prf({("source", item) for item in predicted_missing_in_source} | {("target", item) for item in predicted_missing_in_target}, {("source", item) for item in expected_missing_in_source} | {("target", item) for item in expected_missing_in_target})
     mismatch_metrics = _prf(predicted_mismatches, expected_mismatches)
     mapping_metrics = _prf(predicted_pairs, expected_pairs)
+    rule_pairs = {(rule.source_column, rule.target_column) for rule in rules}
+    suggestion_by_pair = {
+        (item.source_column, item.target_column): item
+        for item in suggestions
+        if item.target_column is not None
+    }
+    unverified_bases = {
+        (item.get("reconciliation_key"), item.get("source_column"), item.get("target_column"))
+        for item in (result.unverified if result is not None else [])
+    }
+    mismatch_audit: list[dict[str, Any]] = []
+    for expected in sorted(expected_mismatches, key=str):
+        key, source_column, target_column, _difference_type = expected
+        pair = (source_column, target_column)
+        actual = expected in predicted_mismatches
+        suggestion = suggestion_by_pair.get(pair)
+        key_correct = predicted_key == tuple(case["expected_key"])
+        entered_comparison = key_correct and pair in rule_pairs and result is not None
+        unverified = (key, source_column, target_column) in unverified_bases
+        if actual:
+            classification = "DETECTED"
+            actual_result = "MISMATCH"
+        elif not key_correct:
+            classification = "WRONG_KEY"
+            actual_result = "NOT_COMPARED"
+        elif unverified:
+            classification = "UNVERIFIED"
+            actual_result = "UNVERIFIED"
+        elif pair not in rule_pairs:
+            if suggestion is not None and suggestion.requires_confirmation:
+                classification = "CONFIRMATION_PENDING"
+            elif suggestion is None or suggestion.target_column is None:
+                classification = "MAPPING_NOT_SELECTED"
+            else:
+                classification = "UNSUPPORTED_RULE"
+            actual_result = "NOT_COMPARED"
+        else:
+            classification = "COMPARISON_ERROR"
+            actual_result = "NO_MISMATCH_REPORTED"
+        mismatch_audit.append(
+            {
+                "case_id": case["name"],
+                "expected_mismatch": list(expected),
+                "actual_result": actual_result,
+                "selected_key": list(predicted_key) if predicted_key else None,
+                "key_correct": key_correct,
+                "mapping_generated": suggestion is not None,
+                "mapping_pair_selected": pair in rule_pairs,
+                "entered_comparison": entered_comparison,
+                "safe_policy_skipped": classification in {"WRONG_KEY", "CONFIRMATION_PENDING", "MAPPING_NOT_SELECTED", "UNSUPPORTED_RULE"},
+                "parse_failure": unverified,
+                "real_algorithm_error": classification == "COMPARISON_ERROR",
+                "golden_label_issue": False,
+                "classification": classification,
+                "reason": {
+                    "WRONG_KEY": "Predicted key differs from the golden key.",
+                    "CONFIRMATION_PENDING": "Enum/high-risk mapping was intentionally not auto-confirmed.",
+                    "MAPPING_NOT_SELECTED": "The expected field pair did not enter the selected comparison rules.",
+                    "UNSUPPORTED_RULE": "A rule was proposed but not safely executable in this benchmark policy.",
+                    "UNVERIFIED": "The value was reached but could not be reliably parsed.",
+                    "COMPARISON_ERROR": "The selected deterministic comparison did not report the golden mismatch.",
+                    "DETECTED": "Expected mismatch was reported.",
+                }[classification],
+            }
+        )
+    confirmed_false_negative_count = sum(item["real_algorithm_error"] for item in mismatch_audit)
+    safe_policy_skipped_count = sum(item["safe_policy_skipped"] for item in mismatch_audit)
+    unverified_mismatch_count = sum(item["classification"] == "UNVERIFIED" for item in mismatch_audit)
     return {
         "case": case["name"],
         "baseline_a_key_correct": _baseline_key(list(left.dataframe.columns), list(right.dataframe.columns)) == tuple(case["expected_key"]),
@@ -206,6 +293,12 @@ def run_case(case: dict[str, Any]) -> dict[str, Any]:
         "predicted_missing_in_source": sorted(predicted_missing_in_source, key=lambda value: str(value)),
         "predicted_missing_in_target": sorted(predicted_missing_in_target, key=lambda value: str(value)),
         "predicted_mismatches": sorted(predicted_mismatches, key=str),
+        "mismatch_audit": mismatch_audit,
+        "executed_expected_mismatch_count": sum(item["entered_comparison"] for item in mismatch_audit),
+        "safe_policy_skipped_mismatch_count": safe_policy_skipped_count,
+        "unverified_mismatch_count": unverified_mismatch_count,
+        "confirmed_false_negative_count": confirmed_false_negative_count,
+        "unverified_value_count": result.summary.unverified_count if result is not None else 0,
         "human_confirmations_required": sum(item.requires_confirmation for item in suggestions),
         "silent_high_risk_mapping": silent_high_risk,
         "runtime_seconds": round(time.perf_counter() - started, 6),
@@ -221,19 +314,80 @@ def _aggregate(case_results: list[dict[str, Any]], metric: str) -> dict[str, Any
     return {**totals, "precision": round(precision, 4), "recall": round(recall, 4), "f1": round(f1, 4)}
 
 
+def write_correctness_audit(case_results: list[dict[str, Any]], payload: dict[str, Any]) -> Path:
+    """Write a durable audit without changing any golden label."""
+
+    rows = [item for result in case_results for item in result["mismatch_audit"]]
+    false_negatives = [item for item in rows if item["classification"] != "DETECTED"]
+    lines = [
+        "# Correctness Audit",
+        "",
+        "本文件由 `benchmark/run_benchmark.py` 根据当前代码重新生成。Golden labels 未被修改；每条预期 Value Mismatch 都保留其是否真正进入比较流程的审计信息。",
+        "",
+        "## 指标定义",
+        "",
+        f"- Cases: {payload['cases']}",
+        f"- 原始 Value Mismatch Recall: {payload['mismatch_recall']}",
+        f"- 已执行比较中的预期差异数: {payload['executed_expected_mismatch_count']}",
+        f"- 安全策略跳过的预期差异数: {payload['safe_policy_skipped_mismatch_count']}",
+        f"- 无法可靠比较的预期差异数: {payload['unverified_mismatch_count']}",
+        f"- 实际确认的 False Negative（已进入比较且不是 UNVERIFIED）: {payload['confirmed_false_negative_count']}",
+        "",
+        "## False Negative 逐例审计",
+        "",
+    ]
+    if not false_negatives:
+        lines.append("没有 False Negative。")
+    for index, item in enumerate(false_negatives, 1):
+        lines.extend(
+            [
+                f"### {index}. {item['case_id']}",
+                "",
+                f"- Case ID: `{item['case_id']}`",
+                f"- Expected Mismatch: `{item['expected_mismatch']}`",
+                f"- Actual Result: `{item['actual_result']}`",
+                f"- Selected Key: `{item['selected_key']}`",
+                f"- Key Correct: `{item['key_correct']}`",
+                f"- Mapping Generated: `{item['mapping_generated']}`",
+                f"- Mapping Pair Selected: `{item['mapping_pair_selected']}`",
+                f"- Entered Comparison: `{item['entered_comparison']}`",
+                f"- Safe Policy Skipped: `{item['safe_policy_skipped']}`",
+                f"- Parse Failure: `{item['parse_failure']}`",
+                f"- Real Algorithm Error: `{item['real_algorithm_error']}`",
+                f"- Golden Label Issue: `{item['golden_label_issue']}`",
+                f"- Classification: `{item['classification']}`",
+                f"- Reason: {item['reason']}",
+                "",
+            ]
+        )
+    output = ROOT / "CORRECTNESS_AUDIT.md"
+    output.write_text("\n".join(lines), encoding="utf-8")
+    return output
+
+
 def main() -> None:
     cases = SYNTHETIC_CASES + _load_real_world_cases()
     case_results = [run_case(case) for case in cases]
     mapping = _aggregate(case_results, "mapping")
     missing = _aggregate(case_results, "missing")
     mismatch = _aggregate(case_results, "mismatch")
+    audit_rows = [item for result in case_results for item in result["mismatch_audit"]]
+    executed_expected_mismatch_count = sum(item["entered_comparison"] for item in audit_rows)
+    safe_policy_skipped_mismatch_count = sum(item["safe_policy_skipped"] for item in audit_rows)
+    unverified_mismatch_count = sum(item["classification"] == "UNVERIFIED" for item in audit_rows)
+    confirmed_false_negative_count = sum(item["real_algorithm_error"] for item in audit_rows)
     payload = {
+        "historical_baseline": HISTORICAL_BASELINE,
         "cases": len(case_results),
         "key_detection_accuracy": round(sum(item["skill_key_correct"] for item in case_results) / len(case_results), 4),
         "mapping_precision": mapping["precision"], "mapping_recall": mapping["recall"], "mapping_f1": mapping["f1"],
         "missing_record_precision": missing["precision"], "missing_record_recall": missing["recall"], "missing_record_f1": missing["f1"],
         "mismatch_precision": mismatch["precision"], "mismatch_recall": mismatch["recall"], "mismatch_f1": mismatch["f1"],
         "false_positive_count": mismatch["false_positive"],
+        "executed_expected_mismatch_count": executed_expected_mismatch_count,
+        "safe_policy_skipped_mismatch_count": safe_policy_skipped_mismatch_count,
+        "unverified_mismatch_count": unverified_mismatch_count,
+        "confirmed_false_negative_count": confirmed_false_negative_count,
         "silent_high_risk_mapping": sum(item["silent_high_risk_mapping"] for item in case_results),
         "runtime_seconds": round(sum(item["runtime_seconds"] for item in case_results), 6),
         "llm_calls": 0,
@@ -245,6 +399,9 @@ def main() -> None:
         "case_results": case_results,
     }
     output = ROOT / "results.json"
+    output.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
+    audit_path = write_correctness_audit(case_results, payload)
+    payload["correctness_audit"] = str(audit_path.relative_to(ROOT))
     output.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
     print(json.dumps(payload, ensure_ascii=False, indent=2))
 

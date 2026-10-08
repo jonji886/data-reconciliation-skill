@@ -279,6 +279,17 @@ expected_mismatches
 
 > 修过一次的问题不能在下一版本重新出现。
 
+Correctness regression coverage additionally includes:
+
+- strict numeric syntax, Decimal precision, units/currencies/percent signs,
+  invalid grouping, scientific notation, Boolean and non-finite values;
+- `UNVERIFIED` propagation for numeric/date parse failures and mixed timezone
+  awareness, including the rule that identical invalid text is not MATCH;
+- empty/partial mapping coverage and the distinction between field-level gaps
+  and cell-level unverified values;
+- independent `Missing_In_Source` and `Missing_In_Target` diagnostics,
+  including one-record, all-null and low-sample cases.
+
 ---
 
 # 5. Benchmark Design
@@ -344,6 +355,23 @@ silent_auto_execution = 0
 ```
 
 必须是硬性要求。
+
+### Correctness Audit Metrics
+
+The benchmark preserves the original set-based Value Mismatch metrics and also
+records:
+
+```text
+executed_expected_mismatch_count
+safe_policy_skipped_mismatch_count
+unverified_mismatch_count
+confirmed_false_negative_count
+```
+
+The denominator for these values is the number of golden expected value
+mismatches. A safe-policy skip remains part of end-to-end coverage and is not
+counted as a deterministic comparison error. Per-case evidence is written to
+`benchmark/CORRECTNESS_AUDIT.md`.
 
 ---
 

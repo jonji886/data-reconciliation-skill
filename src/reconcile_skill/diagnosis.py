@@ -10,11 +10,26 @@ import pandas as pd
 def diagnose_missing_patterns(
     missing_records: list[dict[str, Any]],
     *,
+    direction: str = "Missing_In_Target",
     threshold: float = 0.7,
     minimum_count: int = 2,
 ) -> list[dict[str, Any]]:
     if not missing_records:
         return []
+    if len(missing_records) < minimum_count:
+        return [
+            {
+                "type": "LOW_SAMPLE",
+                "direction": direction,
+                "fact": f"{len(missing_records)} missing record is available for {direction}; no reliable pattern was inferred.",
+                "hypothesis": "Insufficient sample size for a business pattern hypothesis.",
+                "confidence": "LOW",
+                "evidence_count": len(missing_records),
+                "evidence_total": len(missing_records),
+                "ratio": 1.0,
+                "note": "Low sample; this is not a root-cause conclusion.",
+            }
+        ]
     frame = pd.DataFrame(missing_records)
     diagnostics: list[dict[str, Any]] = []
     for column in frame.columns:
@@ -31,8 +46,13 @@ def diagnose_missing_patterns(
             diagnostics.append(
                 {
                     "type": "PATTERN",
+                    "direction": direction,
                     "fact": f"{count} of {len(values)} missing records have {column}={value}.",
-                    "hypothesis": f"Target dataset may apply a filtering rule related to {column}={value}.",
+                    "hypothesis": (
+                        f"Source dataset may omit or filter records related to {column}={value}."
+                        if direction == "Missing_In_Source"
+                        else f"Target dataset may omit or filter records related to {column}={value}."
+                    ),
                     "confidence": "HIGH" if ratio >= 0.85 else "MEDIUM",
                     "evidence_count": count,
                     "evidence_total": len(values),

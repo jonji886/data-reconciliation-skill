@@ -103,6 +103,16 @@ def write_report(
         "Duplicate Target Keys": result.summary.duplicate_target_key_count,
         "Duplicate Target Rows": result.summary.duplicate_target_row_count,
         "Value Mismatch Count": result.summary.value_mismatch_count,
+        "Matched Value Count": result.summary.matched_value_count,
+        "Unverified Count": result.summary.unverified_count,
+        "Unverified Field Count": result.summary.unverified_field_count,
+        "Compared Field Count": result.summary.compared_field_count,
+        "Unmapped Field Count": result.summary.unmapped_field_count,
+        "Pending Confirmation Field Count": result.summary.pending_field_count,
+        "Skipped Field Count": result.summary.skipped_field_count,
+        "Unsupported Field Count": result.summary.unsupported_field_count,
+        "Coverage Status": result.summary.coverage_status,
+        "Reconciliation Status": result.summary.reconciliation_status,
         "Key Case Sensitive": key_case_sensitive,
         "Run ID": result.run_id,
         "Run Timestamp": result.run_timestamp.isoformat(),
@@ -136,12 +146,41 @@ def write_report(
         _safe_frame(
             _frame(
                 result.value_mismatch,
-                ["reconciliation_key", "source_column", "target_column", "difference_type"],
+                [
+                    "reconciliation_key",
+                    "source_row_number",
+                    "target_row_number",
+                    "source_column",
+                    "target_column",
+                    "difference_type",
+                ],
             )
         ).to_excel(writer, sheet_name="Value_Mismatch", index=False)
-        _safe_frame(_frame(result.diagnostics, ["type", "fact", "hypothesis", "confidence"])).to_excel(
+        _safe_frame(_frame(result.diagnostics, ["direction", "type", "fact", "hypothesis", "confidence"])).to_excel(
             writer, sheet_name="Diagnostics", index=False
         )
+        if result.unverified:
+            _safe_frame(
+                _frame(
+                    result.unverified,
+                    [
+                        "reconciliation_key",
+                        "source_row_number",
+                        "target_row_number",
+                        "source_column",
+                        "target_column",
+                        "source_value",
+                        "target_value",
+                        "difference_type",
+                        "reason_code",
+                        "status",
+                    ],
+                )
+            ).to_excel(writer, sheet_name="Unverified", index=False)
+        if result.field_coverage:
+            _safe_frame(
+                _frame(result.field_coverage, ["source_column", "target_column", "status", "reason"])
+            ).to_excel(writer, sheet_name="Field_Coverage", index=False)
     mapping_path = write_mapping_yaml(
         result,
         output / "mapping.yaml",

@@ -379,6 +379,8 @@ Deterministic Engine
 - Case-sensitive identifiers by default: `ABC001` and `abc001` are different unless the saved key rule explicitly opts out.
 - Duplicate isolation: duplicate keys remain visible in their dedicated report sheets and are excluded from ordinary value comparison.
 - Evidence-based reporting: every mismatch carries its reconciliation key, source/target columns, values and difference type.
+- Three-state comparison: `MATCH`, confirmed `MISMATCH`, and `UNVERIFIED`; parse failures and non-finite values never fall back to string equality.
+- Coverage visibility: unmapped, pending-confirmation, skipped, unsupported and unverified fields are counted separately from cell-level mismatches.
 
 ## 14. Security
 
@@ -432,6 +434,13 @@ OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 uv run python benchmark/run_benchmark.p
 ```
 
 Summary 报告明确区分 `Matched Unique Keys`、`Missing ... Keys/Rows` 和 `Duplicate ... Keys/Rows`；旧版 API 字段仍保留为兼容别名。
+
+Summary additionally reports `Unverified Count`, field coverage counts, and a
+`Reconciliation Status`. `PARTIAL_NEEDS_REVIEW` means that at least one value
+was not reliably comparable or at least one field did not enter the comparison;
+it must not be interpreted as “all data consistent”. When needed, the report
+adds `Unverified` and `Field_Coverage` sheets while retaining the original
+report sheets.
 
 ## 17. Limitation
 

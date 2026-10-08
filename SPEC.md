@@ -125,6 +125,10 @@ Acceptance:
 
 所有计算必须由 deterministic code 完成。
 
+Value comparison has three outcomes: `MATCH`, confirmed `MISMATCH`, and
+`UNVERIFIED`. A parse failure, non-finite number, ambiguous date, or mixed
+timezone awareness is never converted into a string match.
+
 ---
 
 ## US-07 容差
@@ -175,6 +179,10 @@ MVP 支持：
 - Duplicate_Target
 - Value_Mismatch
 - Diagnostics
+
+When applicable, the report also contains `Unverified` and `Field_Coverage`.
+Summary must show their counts and a status other than complete success when
+any value or field was not actually verified.
 
 ---
 
@@ -294,11 +302,20 @@ both
 
 逐 Mapping 字段比较。
 
+An empty rule list is a partial reconciliation, even when every key matches.
+Unmapped, pending-confirmation, skipped and unsupported fields are tracked as
+coverage gaps and are not counted as compared fields.
+
 ---
 
 ## FR-07 Diagnostics
 
 至少实现简单聚类：
+
+Missing diagnostics are generated independently for `Missing_In_Source`
+(Target-only records) and `Missing_In_Target` (Source-only records). Each
+diagnostic carries its direction, evidence count and a hypothesis explicitly
+marked as non-causal.
 
 例如：
 
@@ -426,9 +443,19 @@ FAILED
   "duplicate_source_row_count": 6,
   "duplicate_target_key_count": 1,
   "duplicate_target_row_count": 2,
-  "value_mismatch_count": 17
+  "value_mismatch_count": 17,
+  "unverified_count": 0,
+  "compared_field_count": 4,
+  "pending_field_count": 0,
+  "coverage_status": "COMPLETE",
+  "reconciliation_status": "COMPLETED_WITH_DIFFERENCES"
 }
 ```
+
+`unverified_count` is a cell-level count. `unverified_field_count` and the
+field coverage counts are field-level values and must not be added to the cell
+count. `PARTIAL_NEEDS_REVIEW` is the required status whenever comparison
+coverage is incomplete or an unverified value exists.
 
 The legacy summary names remain available in the Python/API log output for
 backward compatibility. The Excel Summary sheet uses the explicit key/row

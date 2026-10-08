@@ -28,7 +28,7 @@ license: MIT
 3. 生成 Column Mapping Proposal。用户可以接受候选、选择其他候选、跳过或手动指定目标字段；字段不存在时拒绝继续该 Mapping。
 4. 枚举、金额单位、时区、一对多关系、低置信度 Mapping 和 Mapping collision 必须人工确认，不能静默推断。
 5. 将已确认的规则交给 deterministic engine，执行 Join、Duplicate、Missing、Value Diff、Tolerance 和 Evidence 计算。
-6. 输出 `reconciliation_report.xlsx`、`mapping.yaml` 和 `run_log.json`，并用 Fact / Hypothesis 分离的方式解释主要异常。
+6. 输出 `reconciliation_report.xlsx`、`mapping.yaml` 和 `run_log.json`，并用 Fact / Hypothesis 分离的方式解释主要异常。报告同时明确显示 `MATCH`、`MISMATCH`、`UNVERIFIED` 和字段覆盖状态。
 
 ## Execution
 
@@ -89,6 +89,8 @@ The Agent must not:
 - 普通 Mapping 必须一对一；多 Source 映射到同一 Target 时标记 `MAPPING_COLLISION` 并要求用户处理。
 - 当前 MVP 只检测枚举值差异；不同枚举值不会自动视为等价，必须由用户确认后再配置业务规则。
 - 报告写入 Excel 前必须转义用户来源的公式样式字符串，防止 Spreadsheet Formula Injection。
+- 严格数值/日期解析失败、非有限数值和缺少时区的数据进入 `UNVERIFIED`，不得退回字符串比较或计入 MATCH。
+- 空的比较规则列表、未映射字段、待人工确认字段和不支持的规则必须显示为部分完成，不得宣称完整对账成功。
 - 文件默认本地处理；日志只记录文件名、哈希、规则元数据和摘要，不记录完整敏感数据。
 
 ## 输出解释

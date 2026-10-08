@@ -1,0 +1,17 @@
+{
+  "source": "benchmark/results.json before the correctness fix",
+  "note": "Historical baseline preserved for before/after comparison; Golden Labels were not changed.",
+  "cases": 35,
+  "key_detection_accuracy": 1.0,
+  "mapping_precision": 1.0,
+  "mapping_recall": 1.0,
+  "mapping_f1": 1.0,
+  "missing_record_precision": 1.0,
+  "missing_record_recall": 1.0,
+  "missing_record_f1": 1.0,
+  "mismatch_precision": 1.0,
+  "mismatch_recall": 0.4444,
+  "mismatch_f1": 0.6154,
+  "false_positive_count": 0,
+  "silent_high_risk_mapping": 0
+}

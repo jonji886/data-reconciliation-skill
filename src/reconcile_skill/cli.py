@@ -22,6 +22,67 @@ from .semantic_matcher import suggest_column_mappings
 app = typer.Typer(add_completion=False, no_args_is_help=True, help="Excel / CSV 智能对账与差异定位")
 
 
+def _coverage_from_suggestions(suggestions, selected_suggestions):
+    """Make skipped/pending mappings visible instead of dropping them."""
+
+    selected_pairs = {
+        (item.source_column, item.target_column)
+        for item in selected_suggestions
+        if item.target_column is not None
+    }
+    coverage = []
+    rows = []
+    for suggestion in suggestions:
+        pair = (suggestion.source_column, suggestion.target_column)
+        if pair in selected_pairs:
+            status, reason = "COMPARED", "Selected and included in comparison rules."
+        elif suggestion.target_column is None:
+            status, reason = "UNMAPPED", "No mapping met the confidence threshold or no target was selected."
+        elif suggestion.requires_confirmation:
+            status, reason = "PENDING_CONFIRMATION", "High-risk mapping was not confirmed."
+        else:
+            status, reason = "SKIPPED", "Mapping was not selected for this run."
+        coverage.append(
+            {
+                "source_column": suggestion.source_column,
+                "target_column": suggestion.target_column,
+                "status": status,
+                "reason": reason,
+            }
+        )
+        row = suggestion.model_dump()
+        row["coverage_status"] = status
+        row["coverage_reason"] = reason
+        rows.append(row)
+    return coverage, rows
+
+
+def _coverage_from_saved_rules(source_columns, target_columns, source_key, target_key, rules):
+    """Expose fields absent from a saved mapping as explicitly unmapped."""
+
+    mapped_sources = {rule.source_column for rule in rules}
+    coverage = [
+        {
+            "source_column": rule.source_column,
+            "target_column": rule.target_column,
+            "status": "COMPARED",
+            "reason": "Included in saved deterministic mapping.",
+        }
+        for rule in rules
+    ]
+    for source_column in source_columns:
+        if source_column != source_key and source_column not in mapped_sources:
+            coverage.append(
+                {
+                    "source_column": source_column,
+                    "target_column": None,
+                    "status": "UNMAPPED",
+                    "reason": "Source field is absent from the saved mapping.",
+                }
+            )
+    return coverage
+
+
 def _choose_key(
     candidates: list[KeyCandidate],
     *,
@@ -188,6 +249,17 @@ def reconcile_command(
             )
             suggestions = []
             rules = saved_spec.fields
+            field_coverage = _coverage_from_saved_rules(
+                list(source_table.dataframe.columns),
+                list(target_table.dataframe.columns),
+                source_key,
+                target_key,
+                rules,
+            )
+            mapping_rows = [
+                {**rule.model_dump(), "coverage_status": "COMPARED", "coverage_reason": "Saved mapping."}
+                for rule in rules
+            ]
             typer.echo(f"使用已保存 Mapping: {source_key} ↔ {target_key}")
         else:
             selected = _choose_key(
@@ -199,6 +271,7 @@ def reconcile_command(
             typer.echo(f"使用主键: {selected.source_column} ↔ {selected.target_column} (confidence={selected.score:.2f})")
 
             suggestions = suggest_column_mappings(source_profile, target_profile, source_table.dataframe, target_table.dataframe)
+            all_suggestions = list(suggestions)
             confirmed: set[str] = set()
             selected_suggestions = []
             for suggestion in suggestions:
@@ -213,6 +286,7 @@ def reconcile_command(
                 if chosen is not None:
                     selected_suggestions.append(chosen)
                     confirmed.add(chosen.source_column)
+            field_coverage, mapping_rows = _coverage_from_suggestions(all_suggestions, selected_suggestions)
             suggestions = selected_suggestions
             rules = rules_from_suggestions(suggestions, confirmed_columns=confirmed, numeric_tolerance=tolerance)
         result = reconcile(
@@ -222,6 +296,7 @@ def reconcile_command(
             target_key=selected.target_column or "",
             rules=rules,
             case_sensitive=key_case_sensitive,
+            field_coverage=field_coverage,
         )
         report_path, mapping_path = write_report(
             result,
@@ -230,7 +305,7 @@ def reconcile_command(
             target_key=selected.target_column or "",
             source_file=source_table.file_name,
             target_file=target_table.file_name,
-            mapping_suggestions=[item.model_dump() for item in suggestions] if suggestions else [item.model_dump() for item in rules],
+            mapping_suggestions=mapping_rows,
             key_case_sensitive=key_case_sensitive,
         )
         log_path = write_run_log(

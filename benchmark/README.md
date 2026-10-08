@@ -36,6 +36,15 @@ The command writes [`results.json`](results.json), including:
 - Runtime and LLM Calls
 - Per-case results and both baselines
 
+The run also writes `CORRECTNESS_AUDIT.md`. It audits every golden Value
+Mismatch that was not detected and records the Case ID, actual result, selected
+key, mapping selection, whether the case entered comparison, safe-policy skip,
+parse failure, algorithm-error classification and Golden Label assessment.
+`confirmed_false_negative_count` counts only cases that entered deterministic
+comparison and still failed to report the expected mismatch. Enum cases that
+remain pending human confirmation are retained in end-to-end coverage and are
+reported separately as safe-policy skips.
+
 `results.json` is the source of truth for current numbers. Missing records are
 evaluated as sets of reconciliation keys per direction. Value mismatches are
 evaluated as sets of `(reconciliation_key, source_column, target_column,

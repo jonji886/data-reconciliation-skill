@@ -1,4 +1,21 @@
 {
+  "historical_baseline": {
+    "source": "benchmark/results.json before the correctness fix",
+    "note": "Historical baseline preserved for before/after comparison; Golden Labels were not changed.",
+    "cases": 35,
+    "key_detection_accuracy": 1.0,
+    "mapping_precision": 1.0,
+    "mapping_recall": 1.0,
+    "mapping_f1": 1.0,
+    "missing_record_precision": 1.0,
+    "missing_record_recall": 1.0,
+    "missing_record_f1": 1.0,
+    "mismatch_precision": 1.0,
+    "mismatch_recall": 0.4444,
+    "mismatch_f1": 0.6154,
+    "false_positive_count": 0,
+    "silent_high_risk_mapping": 0
+  },
   "cases": 35,
   "key_detection_accuracy": 1.0,
   "mapping_precision": 1.0,
@@ -11,8 +28,12 @@
   "mismatch_recall": 0.4444,
   "mismatch_f1": 0.6154,
   "false_positive_count": 0,
+  "executed_expected_mismatch_count": 4,
+  "safe_policy_skipped_mismatch_count": 5,
+  "unverified_mismatch_count": 0,
+  "confirmed_false_negative_count": 0,
   "silent_high_risk_mapping": 0,
-  "runtime_seconds": 0.801969,
+  "runtime_seconds": 0.668873,
   "llm_calls": 0,
   "confirmation_safety": {
     "silent_high_risk_mapping": 0,
@@ -71,9 +92,15 @@
       "predicted_missing_in_source": [],
       "predicted_missing_in_target": [],
       "predicted_mismatches": [],
+      "mismatch_audit": [],
+      "executed_expected_mismatch_count": 0,
+      "safe_policy_skipped_mismatch_count": 0,
+      "unverified_mismatch_count": 0,
+      "confirmed_false_negative_count": 0,
+      "unverified_value_count": 0,
       "human_confirmations_required": 2,
       "silent_high_risk_mapping": 0,
-      "runtime_seconds": 0.028127,
+      "runtime_seconds": 0.027367,
       "llm_calls": 0
     },
     {
@@ -124,9 +151,15 @@
       "predicted_missing_in_source": [],
       "predicted_missing_in_target": [],
       "predicted_mismatches": [],
+      "mismatch_audit": [],
+      "executed_expected_mismatch_count": 0,
+      "safe_policy_skipped_mismatch_count": 0,
+      "unverified_mismatch_count": 0,
+      "confirmed_false_negative_count": 0,
+      "unverified_value_count": 0,
       "human_confirmations_required": 1,
       "silent_high_risk_mapping": 0,
-      "runtime_seconds": 0.021283,
+      "runtime_seconds": 0.014658,
       "llm_calls": 0
     },
     {
@@ -177,9 +210,15 @@
       "predicted_missing_in_source": [],
       "predicted_missing_in_target": [],
       "predicted_mismatches": [],
+      "mismatch_audit": [],
+      "executed_expected_mismatch_count": 0,
+      "safe_policy_skipped_mismatch_count": 0,
+      "unverified_mismatch_count": 0,
+      "confirmed_false_negative_count": 0,
+      "unverified_value_count": 0,
       "human_confirmations_required": 0,
       "silent_high_risk_mapping": 0,
-      "runtime_seconds": 0.014682,
+      "runtime_seconds": 0.044447,
       "llm_calls": 0
     },
     {
@@ -230,9 +269,15 @@
       "predicted_missing_in_source": [],
       "predicted_missing_in_target": [],
       "predicted_mismatches": [],
+      "mismatch_audit": [],
+      "executed_expected_mismatch_count": 0,
+      "safe_policy_skipped_mismatch_count": 0,
+      "unverified_mismatch_count": 0,
+      "confirmed_false_negative_count": 0,
+      "unverified_value_count": 0,
       "human_confirmations_required": 1,
       "silent_high_risk_mapping": 0,
-      "runtime_seconds": 0.014907,
+      "runtime_seconds": 0.021743,
       "llm_calls": 0
     },
     {
@@ -283,9 +328,15 @@
       "predicted_missing_in_source": [],
       "predicted_missing_in_target": [],
       "predicted_mismatches": [],
+      "mismatch_audit": [],
+      "executed_expected_mismatch_count": 0,
+      "safe_policy_skipped_mismatch_count": 0,
+      "unverified_mismatch_count": 0,
+      "confirmed_false_negative_count": 0,
+      "unverified_value_count": 0,
       "human_confirmations_required": 2,
       "silent_high_risk_mapping": 0,
-      "runtime_seconds": 0.022998,
+      "runtime_seconds": 0.024305,
       "llm_calls": 0
     },
     {
@@ -336,9 +387,15 @@
       "predicted_missing_in_source": [],
       "predicted_missing_in_target": [],
       "predicted_mismatches": [],
+      "mismatch_audit": [],
+      "executed_expected_mismatch_count": 0,
+      "safe_policy_skipped_mismatch_count": 0,
+      "unverified_mismatch_count": 0,
+      "confirmed_false_negative_count": 0,
+      "unverified_value_count": 0,
       "human_confirmations_required": 1,
       "silent_high_risk_mapping": 0,
-      "runtime_seconds": 0.016909,
+      "runtime_seconds": 0.05881,
       "llm_calls": 0
     },
     {
@@ -391,9 +448,15 @@
         "A2"
       ],
       "predicted_mismatches": [],
+      "mismatch_audit": [],
+      "executed_expected_mismatch_count": 0,
+      "safe_policy_skipped_mismatch_count": 0,
+      "unverified_mismatch_count": 0,
+      "confirmed_false_negative_count": 0,
+      "unverified_value_count": 0,
       "human_confirmations_required": 0,
       "silent_high_risk_mapping": 0,
-      "runtime_seconds": 0.017674,
+      "runtime_seconds": 0.006156,
       "llm_calls": 0
     },
     {
@@ -446,9 +509,15 @@
       ],
       "predicted_missing_in_target": [],
       "predicted_mismatches": [],
+      "mismatch_audit": [],
+      "executed_expected_mismatch_count": 0,
+      "safe_policy_skipped_mismatch_count": 0,
+      "unverified_mismatch_count": 0,
+      "confirmed_false_negative_count": 0,
+      "unverified_value_count": 0,
       "human_confirmations_required": 0,
       "silent_high_risk_mapping": 0,
-      "runtime_seconds": 0.010629,
+      "runtime_seconds": 0.007813,
       "llm_calls": 0
     },
     {
@@ -499,9 +568,15 @@
       "predicted_missing_in_source": [],
       "predicted_missing_in_target": [],
       "predicted_mismatches": [],
+      "mismatch_audit": [],
+      "executed_expected_mismatch_count": 0,
+      "safe_policy_skipped_mismatch_count": 0,
+      "unverified_mismatch_count": 0,
+      "confirmed_false_negative_count": 0,
+      "unverified_value_count": 0,
       "human_confirmations_required": 0,
       "silent_high_risk_mapping": 0,
-      "runtime_seconds": 0.007187,
+      "runtime_seconds": 0.008062,
       "llm_calls": 0
     },
     {
@@ -552,9 +627,15 @@
       "predicted_missing_in_source": [],
       "predicted_missing_in_target": [],
       "predicted_mismatches": [],
+      "mismatch_audit": [],
+      "executed_expected_mismatch_count": 0,
+      "safe_policy_skipped_mismatch_count": 0,
+      "unverified_mismatch_count": 0,
+      "confirmed_false_negative_count": 0,
+      "unverified_value_count": 0,
       "human_confirmations_required": 0,
       "silent_high_risk_mapping": 0,
-      "runtime_seconds": 0.012796,
+      "runtime_seconds": 0.007989,
       "llm_calls": 0
     },
     {
@@ -609,9 +690,15 @@
         null
       ],
       "predicted_mismatches": [],
+      "mismatch_audit": [],
+      "executed_expected_mismatch_count": 0,
+      "safe_policy_skipped_mismatch_count": 0,
+      "unverified_mismatch_count": 0,
+      "confirmed_false_negative_count": 0,
+      "unverified_value_count": 0,
       "human_confirmations_required": 0,
       "silent_high_risk_mapping": 0,
-      "runtime_seconds": 0.017,
+      "runtime_seconds": 0.009981,
       "llm_calls": 0
     },
     {
@@ -666,9 +753,15 @@
         null
       ],
       "predicted_mismatches": [],
+      "mismatch_audit": [],
+      "executed_expected_mismatch_count": 0,
+      "safe_policy_skipped_mismatch_count": 0,
+      "unverified_mismatch_count": 0,
+      "confirmed_false_negative_count": 0,
+      "unverified_value_count": 0,
       "human_confirmations_required": 0,
       "silent_high_risk_mapping": 0,
-      "runtime_seconds": 0.019769,
+      "runtime_seconds": 0.016689,
       "llm_calls": 0
     },
     {
@@ -719,9 +812,15 @@
       "predicted_missing_in_source": [],
       "predicted_missing_in_target": [],
       "predicted_mismatches": [],
+      "mismatch_audit": [],
+      "executed_expected_mismatch_count": 0,
+      "safe_policy_skipped_mismatch_count": 0,
+      "unverified_mismatch_count": 0,
+      "confirmed_false_negative_count": 0,
+      "unverified_value_count": 0,
       "human_confirmations_required": 1,
       "silent_high_risk_mapping": 0,
-      "runtime_seconds": 0.022846,
+      "runtime_seconds": 0.013376,
       "llm_calls": 0
     },
     {
@@ -779,9 +878,40 @@
           "NUMERIC_TOLERANCE_MISMATCH"
         ]
       ],
+      "mismatch_audit": [
+        {
+          "case_id": "amount_mismatch",
+          "expected_mismatch": [
+            "A1",
+            "amount",
+            "amount",
+            "NUMERIC_TOLERANCE_MISMATCH"
+          ],
+          "actual_result": "MISMATCH",
+          "selected_key": [
+            "id",
+            "id"
+          ],
+          "key_correct": true,
+          "mapping_generated": true,
+          "mapping_pair_selected": true,
+          "entered_comparison": true,
+          "safe_policy_skipped": false,
+          "parse_failure": false,
+          "real_algorithm_error": false,
+          "golden_label_issue": false,
+          "classification": "DETECTED",
+          "reason": "Expected mismatch was reported."
+        }
+      ],
+      "executed_expected_mismatch_count": 1,
+      "safe_policy_skipped_mismatch_count": 0,
+      "unverified_mismatch_count": 0,
+      "confirmed_false_negative_count": 0,
+      "unverified_value_count": 0,
       "human_confirmations_required": 1,
       "silent_high_risk_mapping": 0,
-      "runtime_seconds": 0.020317,
+      "runtime_seconds": 0.014292,
       "llm_calls": 0
     },
     {
@@ -832,9 +962,15 @@
       "predicted_missing_in_source": [],
       "predicted_missing_in_target": [],
       "predicted_mismatches": [],
+      "mismatch_audit": [],
+      "executed_expected_mismatch_count": 0,
+      "safe_policy_skipped_mismatch_count": 0,
+      "unverified_mismatch_count": 0,
+      "confirmed_false_negative_count": 0,
+      "unverified_value_count": 0,
       "human_confirmations_required": 1,
       "silent_high_risk_mapping": 0,
-      "runtime_seconds": 0.01977,
+      "runtime_seconds": 0.014888,
       "llm_calls": 0
     },
     {
@@ -885,9 +1021,15 @@
       "predicted_missing_in_source": [],
       "predicted_missing_in_target": [],
       "predicted_mismatches": [],
+      "mismatch_audit": [],
+      "executed_expected_mismatch_count": 0,
+      "safe_policy_skipped_mismatch_count": 0,
+      "unverified_mismatch_count": 0,
+      "confirmed_false_negative_count": 0,
+      "unverified_value_count": 1,
       "human_confirmations_required": 1,
       "silent_high_risk_mapping": 0,
-      "runtime_seconds": 0.028315,
+      "runtime_seconds": 0.012697,
       "llm_calls": 0
     },
     {
@@ -938,9 +1080,15 @@
       "predicted_missing_in_source": [],
       "predicted_missing_in_target": [],
       "predicted_mismatches": [],
+      "mismatch_audit": [],
+      "executed_expected_mismatch_count": 0,
+      "safe_policy_skipped_mismatch_count": 0,
+      "unverified_mismatch_count": 0,
+      "confirmed_false_negative_count": 0,
+      "unverified_value_count": 0,
       "human_confirmations_required": 1,
       "silent_high_risk_mapping": 0,
-      "runtime_seconds": 0.01577,
+      "runtime_seconds": 0.014283,
       "llm_calls": 0
     },
     {
@@ -998,9 +1146,40 @@
           "VALUE_MISMATCH"
         ]
       ],
+      "mismatch_audit": [
+        {
+          "case_id": "case_sensitive_sku",
+          "expected_mismatch": [
+            "A1",
+            "sku",
+            "sku",
+            "VALUE_MISMATCH"
+          ],
+          "actual_result": "MISMATCH",
+          "selected_key": [
+            "id",
+            "id"
+          ],
+          "key_correct": true,
+          "mapping_generated": true,
+          "mapping_pair_selected": true,
+          "entered_comparison": true,
+          "safe_policy_skipped": false,
+          "parse_failure": false,
+          "real_algorithm_error": false,
+          "golden_label_issue": false,
+          "classification": "DETECTED",
+          "reason": "Expected mismatch was reported."
+        }
+      ],
+      "executed_expected_mismatch_count": 1,
+      "safe_policy_skipped_mismatch_count": 0,
+      "unverified_mismatch_count": 0,
+      "confirmed_false_negative_count": 0,
+      "unverified_value_count": 0,
       "human_confirmations_required": 0,
       "silent_high_risk_mapping": 0,
-      "runtime_seconds": 0.016276,
+      "runtime_seconds": 0.010074,
       "llm_calls": 0
     },
     {
@@ -1051,9 +1230,40 @@
       "predicted_missing_in_source": [],
       "predicted_missing_in_target": [],
       "predicted_mismatches": [],
+      "mismatch_audit": [
+        {
+          "case_id": "enum_status",
+          "expected_mismatch": [
+            "A1",
+            "status",
+            "status",
+            "ENUM_MAPPING_REQUIRED"
+          ],
+          "actual_result": "NOT_COMPARED",
+          "selected_key": [
+            "order_id",
+            "order_id"
+          ],
+          "key_correct": true,
+          "mapping_generated": true,
+          "mapping_pair_selected": false,
+          "entered_comparison": false,
+          "safe_policy_skipped": true,
+          "parse_failure": false,
+          "real_algorithm_error": false,
+          "golden_label_issue": false,
+          "classification": "CONFIRMATION_PENDING",
+          "reason": "Enum/high-risk mapping was intentionally not auto-confirmed."
+        }
+      ],
+      "executed_expected_mismatch_count": 0,
+      "safe_policy_skipped_mismatch_count": 1,
+      "unverified_mismatch_count": 0,
+      "confirmed_false_negative_count": 0,
+      "unverified_value_count": 0,
       "human_confirmations_required": 1,
       "silent_high_risk_mapping": 0,
-      "runtime_seconds": 0.017921,
+      "runtime_seconds": 0.012746,
       "llm_calls": 0
     },
     {
@@ -1104,9 +1314,15 @@
       "predicted_missing_in_source": [],
       "predicted_missing_in_target": [],
       "predicted_mismatches": [],
+      "mismatch_audit": [],
+      "executed_expected_mismatch_count": 0,
+      "safe_policy_skipped_mismatch_count": 0,
+      "unverified_mismatch_count": 0,
+      "confirmed_false_negative_count": 0,
+      "unverified_value_count": 0,
       "human_confirmations_required": 0,
       "silent_high_risk_mapping": 0,
-      "runtime_seconds": 0.007191,
+      "runtime_seconds": 0.010664,
       "llm_calls": 0
     },
     {
@@ -1157,9 +1373,15 @@
       "predicted_missing_in_source": [],
       "predicted_missing_in_target": [],
       "predicted_mismatches": [],
+      "mismatch_audit": [],
+      "executed_expected_mismatch_count": 0,
+      "safe_policy_skipped_mismatch_count": 0,
+      "unverified_mismatch_count": 0,
+      "confirmed_false_negative_count": 0,
+      "unverified_value_count": 0,
       "human_confirmations_required": 2,
       "silent_high_risk_mapping": 0,
-      "runtime_seconds": 0.016886,
+      "runtime_seconds": 0.018345,
       "llm_calls": 0
     },
     {
@@ -1210,9 +1432,15 @@
       "predicted_missing_in_source": [],
       "predicted_missing_in_target": [],
       "predicted_mismatches": [],
+      "mismatch_audit": [],
+      "executed_expected_mismatch_count": 0,
+      "safe_policy_skipped_mismatch_count": 0,
+      "unverified_mismatch_count": 0,
+      "confirmed_false_negative_count": 0,
+      "unverified_value_count": 0,
       "human_confirmations_required": 1,
       "silent_high_risk_mapping": 0,
-      "runtime_seconds": 0.015473,
+      "runtime_seconds": 0.016606,
       "llm_calls": 0
     },
     {
@@ -1263,9 +1491,15 @@
       "predicted_missing_in_source": [],
       "predicted_missing_in_target": [],
       "predicted_mismatches": [],
+      "mismatch_audit": [],
+      "executed_expected_mismatch_count": 0,
+      "safe_policy_skipped_mismatch_count": 0,
+      "unverified_mismatch_count": 0,
+      "confirmed_false_negative_count": 0,
+      "unverified_value_count": 0,
       "human_confirmations_required": 2,
       "silent_high_risk_mapping": 0,
-      "runtime_seconds": 0.017004,
+      "runtime_seconds": 0.014744,
       "llm_calls": 0
     },
     {
@@ -1316,9 +1550,15 @@
       "predicted_missing_in_source": [],
       "predicted_missing_in_target": [],
       "predicted_mismatches": [],
+      "mismatch_audit": [],
+      "executed_expected_mismatch_count": 0,
+      "safe_policy_skipped_mismatch_count": 0,
+      "unverified_mismatch_count": 0,
+      "confirmed_false_negative_count": 0,
+      "unverified_value_count": 0,
       "human_confirmations_required": 2,
       "silent_high_risk_mapping": 0,
-      "runtime_seconds": 0.014655,
+      "runtime_seconds": 0.012076,
       "llm_calls": 0
     },
     {
@@ -1369,9 +1609,15 @@
       "predicted_missing_in_source": [],
       "predicted_missing_in_target": [],
       "predicted_mismatches": [],
+      "mismatch_audit": [],
+      "executed_expected_mismatch_count": 0,
+      "safe_policy_skipped_mismatch_count": 0,
+      "unverified_mismatch_count": 0,
+      "confirmed_false_negative_count": 0,
+      "unverified_value_count": 0,
       "human_confirmations_required": 1,
       "silent_high_risk_mapping": 0,
-      "runtime_seconds": 0.019645,
+      "runtime_seconds": 0.013575,
       "llm_calls": 0
     },
     {
@@ -1433,9 +1679,88 @@
           "NUMERIC_TOLERANCE_MISMATCH"
         ]
       ],
+      "mismatch_audit": [
+        {
+          "case_id": "real_erp_order",
+          "expected_mismatch": [
+            "O001",
+            "订单状态",
+            "status",
+            "ENUM_MAPPING_REQUIRED"
+          ],
+          "actual_result": "NOT_COMPARED",
+          "selected_key": [
+            "订单号",
+            "order_id"
+          ],
+          "key_correct": true,
+          "mapping_generated": true,
+          "mapping_pair_selected": false,
+          "entered_comparison": false,
+          "safe_policy_skipped": true,
+          "parse_failure": false,
+          "real_algorithm_error": false,
+          "golden_label_issue": false,
+          "classification": "CONFIRMATION_PENDING",
+          "reason": "Enum/high-risk mapping was intentionally not auto-confirmed."
+        },
+        {
+          "case_id": "real_erp_order",
+          "expected_mismatch": [
+            "O002",
+            "订单状态",
+            "status",
+            "ENUM_MAPPING_REQUIRED"
+          ],
+          "actual_result": "NOT_COMPARED",
+          "selected_key": [
+            "订单号",
+            "order_id"
+          ],
+          "key_correct": true,
+          "mapping_generated": true,
+          "mapping_pair_selected": false,
+          "entered_comparison": false,
+          "safe_policy_skipped": true,
+          "parse_failure": false,
+          "real_algorithm_error": false,
+          "golden_label_issue": false,
+          "classification": "CONFIRMATION_PENDING",
+          "reason": "Enum/high-risk mapping was intentionally not auto-confirmed."
+        },
+        {
+          "case_id": "real_erp_order",
+          "expected_mismatch": [
+            "O002",
+            "订单金额",
+            "total_amount",
+            "NUMERIC_TOLERANCE_MISMATCH"
+          ],
+          "actual_result": "MISMATCH",
+          "selected_key": [
+            "订单号",
+            "order_id"
+          ],
+          "key_correct": true,
+          "mapping_generated": true,
+          "mapping_pair_selected": true,
+          "entered_comparison": true,
+          "safe_policy_skipped": false,
+          "parse_failure": false,
+          "real_algorithm_error": false,
+          "golden_label_issue": false,
+          "classification": "DETECTED",
+          "reason": "Expected mismatch was reported."
+        }
+      ],
+      "executed_expected_mismatch_count": 1,
+      "safe_policy_skipped_mismatch_count": 2,
+      "unverified_mismatch_count": 0,
+      "confirmed_false_negative_count": 0,
+      "unverified_value_count": 0,
       "human_confirmations_required": 5,
       "silent_high_risk_mapping": 0,
-      "runtime_seconds": 0.060013,
+      "runtime_seconds": 0.04416,
       "llm_calls": 0
     },
     {
@@ -1486,9 +1811,15 @@
       "predicted_missing_in_source": [],
       "predicted_missing_in_target": [],
       "predicted_mismatches": [],
+      "mismatch_audit": [],
+      "executed_expected_mismatch_count": 0,
+      "safe_policy_skipped_mismatch_count": 0,
+      "unverified_mismatch_count": 0,
+      "confirmed_false_negative_count": 0,
+      "unverified_value_count": 0,
       "human_confirmations_required": 4,
       "silent_high_risk_mapping": 0,
-      "runtime_seconds": 0.044622,
+      "runtime_seconds": 0.033839,
       "llm_calls": 0
     },
     {
@@ -1539,9 +1870,15 @@
       "predicted_missing_in_source": [],
       "predicted_missing_in_target": [],
       "predicted_mismatches": [],
+      "mismatch_audit": [],
+      "executed_expected_mismatch_count": 0,
+      "safe_policy_skipped_mismatch_count": 0,
+      "unverified_mismatch_count": 0,
+      "confirmed_false_negative_count": 0,
+      "unverified_value_count": 0,
       "human_confirmations_required": 3,
       "silent_high_risk_mapping": 0,
-      "runtime_seconds": 0.039487,
+      "runtime_seconds": 0.032581,
       "llm_calls": 0
     },
     {
@@ -1599,9 +1936,40 @@
           "NUMERIC_TOLERANCE_MISMATCH"
         ]
       ],
+      "mismatch_audit": [
+        {
+          "case_id": "real_payment",
+          "expected_mismatch": [
+            "T002",
+            "支付金额",
+            "paid_amount",
+            "NUMERIC_TOLERANCE_MISMATCH"
+          ],
+          "actual_result": "MISMATCH",
+          "selected_key": [
+            "交易号",
+            "transaction_id"
+          ],
+          "key_correct": true,
+          "mapping_generated": true,
+          "mapping_pair_selected": true,
+          "entered_comparison": true,
+          "safe_policy_skipped": false,
+          "parse_failure": false,
+          "real_algorithm_error": false,
+          "golden_label_issue": false,
+          "classification": "DETECTED",
+          "reason": "Expected mismatch was reported."
+        }
+      ],
+      "executed_expected_mismatch_count": 1,
+      "safe_policy_skipped_mismatch_count": 0,
+      "unverified_mismatch_count": 0,
+      "confirmed_false_negative_count": 0,
+      "unverified_value_count": 0,
       "human_confirmations_required": 3,
       "silent_high_risk_mapping": 0,
-      "runtime_seconds": 0.039504,
+      "runtime_seconds": 0.030193,
       "llm_calls": 0
     },
     {
@@ -1652,9 +2020,15 @@
       "predicted_missing_in_source": [],
       "predicted_missing_in_target": [],
       "predicted_mismatches": [],
+      "mismatch_audit": [],
+      "executed_expected_mismatch_count": 0,
+      "safe_policy_skipped_mismatch_count": 0,
+      "unverified_mismatch_count": 0,
+      "confirmed_false_negative_count": 0,
+      "unverified_value_count": 0,
       "human_confirmations_required": 3,
       "silent_high_risk_mapping": 0,
-      "runtime_seconds": 0.042224,
+      "runtime_seconds": 0.023359,
       "llm_calls": 0
     },
     {
@@ -1709,9 +2083,15 @@
         "abc001"
       ],
       "predicted_mismatches": [],
+      "mismatch_audit": [],
+      "executed_expected_mismatch_count": 0,
+      "safe_policy_skipped_mismatch_count": 0,
+      "unverified_mismatch_count": 0,
+      "confirmed_false_negative_count": 0,
+      "unverified_value_count": 0,
       "human_confirmations_required": 1,
       "silent_high_risk_mapping": 0,
-      "runtime_seconds": 0.028755,
+      "runtime_seconds": 0.015006,
       "llm_calls": 0
     },
     {
@@ -1762,9 +2142,15 @@
       "predicted_missing_in_source": [],
       "predicted_missing_in_target": [],
       "predicted_mismatches": [],
+      "mismatch_audit": [],
+      "executed_expected_mismatch_count": 0,
+      "safe_policy_skipped_mismatch_count": 0,
+      "unverified_mismatch_count": 0,
+      "confirmed_false_negative_count": 0,
+      "unverified_value_count": 0,
       "human_confirmations_required": 1,
       "silent_high_risk_mapping": 0,
-      "runtime_seconds": 0.021247,
+      "runtime_seconds": 0.016544,
       "llm_calls": 0
     },
     {
@@ -1819,9 +2205,15 @@
         null
       ],
       "predicted_mismatches": [],
+      "mismatch_audit": [],
+      "executed_expected_mismatch_count": 0,
+      "safe_policy_skipped_mismatch_count": 0,
+      "unverified_mismatch_count": 0,
+      "confirmed_false_negative_count": 0,
+      "unverified_value_count": 0,
       "human_confirmations_required": 0,
       "silent_high_risk_mapping": 0,
-      "runtime_seconds": 0.031965,
+      "runtime_seconds": 0.015372,
       "llm_calls": 0
     },
     {
@@ -1872,9 +2264,15 @@
       "predicted_missing_in_source": [],
       "predicted_missing_in_target": [],
       "predicted_mismatches": [],
+      "mismatch_audit": [],
+      "executed_expected_mismatch_count": 0,
+      "safe_policy_skipped_mismatch_count": 0,
+      "unverified_mismatch_count": 0,
+      "confirmed_false_negative_count": 0,
+      "unverified_value_count": 0,
       "human_confirmations_required": 1,
       "silent_high_risk_mapping": 0,
-      "runtime_seconds": 0.033032,
+      "runtime_seconds": 0.016939,
       "llm_calls": 0
     },
     {
@@ -1925,10 +2323,66 @@
       "predicted_missing_in_source": [],
       "predicted_missing_in_target": [],
       "predicted_mismatches": [],
+      "mismatch_audit": [
+        {
+          "case_id": "real_enum_difference",
+          "expected_mismatch": [
+            "O001",
+            "status",
+            "status",
+            "ENUM_MAPPING_REQUIRED"
+          ],
+          "actual_result": "NOT_COMPARED",
+          "selected_key": [
+            "order_id",
+            "order_id"
+          ],
+          "key_correct": true,
+          "mapping_generated": true,
+          "mapping_pair_selected": false,
+          "entered_comparison": false,
+          "safe_policy_skipped": true,
+          "parse_failure": false,
+          "real_algorithm_error": false,
+          "golden_label_issue": false,
+          "classification": "CONFIRMATION_PENDING",
+          "reason": "Enum/high-risk mapping was intentionally not auto-confirmed."
+        },
+        {
+          "case_id": "real_enum_difference",
+          "expected_mismatch": [
+            "O002",
+            "status",
+            "status",
+            "ENUM_MAPPING_REQUIRED"
+          ],
+          "actual_result": "NOT_COMPARED",
+          "selected_key": [
+            "order_id",
+            "order_id"
+          ],
+          "key_correct": true,
+          "mapping_generated": true,
+          "mapping_pair_selected": false,
+          "entered_comparison": false,
+          "safe_policy_skipped": true,
+          "parse_failure": false,
+          "real_algorithm_error": false,
+          "golden_label_issue": false,
+          "classification": "CONFIRMATION_PENDING",
+          "reason": "Enum/high-risk mapping was intentionally not auto-confirmed."
+        }
+      ],
+      "executed_expected_mismatch_count": 0,
+      "safe_policy_skipped_mismatch_count": 2,
+      "unverified_mismatch_count": 0,
+      "confirmed_false_negative_count": 0,
+      "unverified_value_count": 0,
       "human_confirmations_required": 1,
       "silent_high_risk_mapping": 0,
-      "runtime_seconds": 0.02509,
+      "runtime_seconds": 0.014494,
       "llm_calls": 0
     }
-  ]
+  ],
+  "correctness_audit": "CORRECTNESS_AUDIT.md"
 }

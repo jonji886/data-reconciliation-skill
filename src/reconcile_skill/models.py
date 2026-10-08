@@ -3,9 +3,32 @@
 from __future__ import annotations
 
 from datetime import datetime, timezone
+from enum import Enum
+from math import isfinite
 from typing import Any
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, field_validator
+
+
+class ComparisonStatus(str, Enum):
+    """Outcome of a value comparison.
+
+    ``UNVERIFIED`` is intentionally separate from ``MISMATCH``: the former
+    means the engine could not establish a reliable comparison and must never
+    be presented as a confirmed equality.
+    """
+
+    MATCH = "MATCH"
+    MISMATCH = "MISMATCH"
+    UNVERIFIED = "UNVERIFIED"
+
+
+class ValueComparison(BaseModel):
+    status: ComparisonStatus
+    difference_type: str
+    normalized_left: Any | None = None
+    normalized_right: Any | None = None
+    reason_code: str | None = None
 
 
 class ColumnProfile(BaseModel):
@@ -65,6 +88,15 @@ class CompareRule(BaseModel):
     normalizers: list[str] = Field(default_factory=list)
     requires_confirmation: bool = False
 
+    @field_validator("tolerance")
+    @classmethod
+    def validate_tolerance(cls, value: float | None) -> float | None:
+        if value is None:
+            return None
+        if isinstance(value, bool) or not isfinite(float(value)) or float(value) < 0:
+            raise ValueError("tolerance must be a finite non-negative number")
+        return value
+
 
 class ReconciliationSummary(BaseModel):
     """Summary with explicit key-versus-row terminology.
@@ -95,6 +127,16 @@ class ReconciliationSummary(BaseModel):
     duplicate_source_keys: int | None = None
     duplicate_target_keys: int | None = None
     value_mismatches: int | None = None
+    matched_value_count: int = 0
+    unverified_count: int = 0
+    unverified_field_count: int = 0
+    compared_field_count: int = 0
+    unmapped_field_count: int = 0
+    pending_field_count: int = 0
+    skipped_field_count: int = 0
+    unsupported_field_count: int = 0
+    coverage_status: str = "PARTIAL_NEEDS_REVIEW"
+    reconciliation_status: str = "PARTIAL_NEEDS_REVIEW"
 
 
 class ReconciliationResult(BaseModel):
@@ -105,8 +147,11 @@ class ReconciliationResult(BaseModel):
     duplicate_source: list[dict[str, Any]] = Field(default_factory=list)
     duplicate_target: list[dict[str, Any]] = Field(default_factory=list)
     value_mismatch: list[dict[str, Any]] = Field(default_factory=list)
+    unverified: list[dict[str, Any]] = Field(default_factory=list)
+    field_coverage: list[dict[str, Any]] = Field(default_factory=list)
     diagnostics: list[dict[str, Any]] = Field(default_factory=list)
     warnings: list[str] = Field(default_factory=list)
+    status: str = "PARTIAL_NEEDS_REVIEW"
     run_id: str = ""
     run_timestamp: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
 
