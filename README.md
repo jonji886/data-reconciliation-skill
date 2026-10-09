@@ -289,62 +289,6 @@ MVP 技术完成 ≠ 产品验证成功。
 
 ---
 
-## 11. Skill 商店定位
-
-建议展示名：
-
-> **Excel / CSV 智能对账助手**
-
-副标题：
-
-> 两个表自动匹配字段，找出缺失、重复、金额、状态和字段差异。
-
-可覆盖搜索词：
-
-- Excel 对账
-- CSV 对账
-- 两表比较
-- 表格核对
-- 数据核对
-- 找不同
-- 数据匹配
-- VLOOKUP
-- 订单对账
-- 数据差异
-- ERP 对账
-- CRM 数据核对
-- 数据迁移校验
-
-不要把市场名称写成：
-
-> Enterprise Schema Mapping Agent
-
-这适合作品集介绍，不适合普通用户搜索。
-
----
-
-## 12. 作品集说明
-
-面试时，这个项目重点不是：
-
-> “我做了一个 Excel Skill。”
-
-而是：
-
-> “我把企业数据交付中的 Mapping、校验、对账、人工确认、异常定位和证据链，做成了一个可重复执行的 AI Workflow。”
-
-可以重点解释：
-
-- 为什么统计不能交给 LLM；
-- 为什么 Mapping 需要 Confidence；
-- 为什么枚举必须人工确认；
-- 为什么需要 Mapping Spec；
-- 如何设计 Benchmark；
-- 如何避免把相关性误判成根因；
-- 如何控制隐私；
-- 如何处理 Schema Drift。
-
----
 
 ## 13. Architecture
 
@@ -447,21 +391,3 @@ report sheets.
 MVP currently does not infer arbitrary enterprise business rules automatically.
 金额单位、时区、一对多关系以及枚举 value mapping 仍需要人工确认或显式配置。
 
-## 18. 下一阶段可能扩展
-
-只有 MVP 得到真实使用验证后，再考虑：
-
-- 保存 Project；
-- Mapping Template；
-- Regression；
-- 多次 Run 对比；
-- Schema Drift；
-- 数据库连接；
-- API；
-- ERP / CRM Connector；
-- Scheduled Reconciliation；
-- Webhook；
-- MCP；
-- 大文件优化。
-
-不要在 MVP 阶段提前实现。
